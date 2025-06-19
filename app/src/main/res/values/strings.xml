@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Reclame Aqui!</string>
+    <string name="desenho_ilustrativo_de_uma_familia_feliz_loginscreen">Desenho ilustrativo de uma familia feliz</string>
+    <string name="reclame_aqui_loginscreen">Reclame aqui!</string>
+    <string name="e_mail_loginscreen">E-mail</string>
+    <string name="senha_loginscreen">Senha</string>
+</resources>

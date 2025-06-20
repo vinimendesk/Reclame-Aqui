@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">Reclame Aqui!</string>
     <string name="desenho_ilustrativo_de_uma_familia_feliz_loginscreen">Desenho ilustrativo de uma familia feliz</string>
-    <string name="reclame_aqui_loginscreen">Reclame aqui!</string>
+    <string name="reclame_aqui_loginscreen">RECLAME AQUI!</string>
     <string name="e_mail_loginscreen">E-mail</string>
     <string name="senha_loginscreen">Senha</string>
+    <string name="entrar_loginscreen">Entrar</string>
+    <string name="primeira_vez_aqui_loginscreen">Primeira vez aqui?</string>
+    <string name="cadastre_se_login">Cadastre-se</string>
+    <string name="retornar_a_tela_de_login_singupscreen">Retornar a tela de login</string>
 </resources>

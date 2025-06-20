@@ -12,6 +12,7 @@ val Pink40 = Color(0xFF7D5260)
 
 // Cores de Background.
 val AzulBackground = Color(0xFFD2F1F9)
+val RosaBackground = Color(0xFFFFF1E6)
 
 // Cores de Texto.
 val AzulForteText = Color(0xFF127482)

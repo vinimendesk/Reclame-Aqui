@@ -1,4 +1,4 @@
-package com.example.reclameaqui.screens.authentication
+package com.example.reclameaqui.screens.authentication.login
 
 import androidx.compose.foundation.Image
 

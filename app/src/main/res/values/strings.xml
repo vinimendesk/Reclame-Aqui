@@ -8,4 +8,5 @@
     <string name="primeira_vez_aqui_loginscreen">Primeira vez aqui?</string>
     <string name="cadastre_se_login">Cadastre-se</string>
     <string name="retornar_a_tela_de_login_singupscreen">Retornar a tela de login</string>
+    <string name="cadastro_singUp">CADASTRO</string>
 </resources>

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -21,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.reclameaqui.R
+import com.example.reclameaqui.screens.authentication.singup.components.ProfileImagePicker
 import com.example.reclameaqui.ui.theme.AzulForteText
 import com.example.reclameaqui.ui.theme.RosaBackground
 import com.example.reclameaqui.ui.theme.displayFontFamily
@@ -44,7 +46,7 @@ fun SingUpScreen() {
                     .size(40.dp)
 
             )  {
-                Icon(imageVector = Icons.Filled.ArrowBack,
+                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = stringResource(R.string.retornar_a_tela_de_login_singupscreen),
                     modifier = Modifier
                         .size(40.dp)
@@ -66,7 +68,8 @@ fun SingUpScreen() {
             modifier = Modifier
             .fillMaxSize()) {
 
-
+            // Botão de escolha da imagem de perfil.
+            ProfileImagePicker(modifier = Modifier.padding(bottom = 16.dp))
 
         }
 

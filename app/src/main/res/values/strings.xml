@@ -9,4 +9,6 @@
     <string name="cadastre_se_login">Cadastre-se</string>
     <string name="retornar_a_tela_de_login_singupscreen">Retornar a tela de login</string>
     <string name="cadastro_singUp">CADASTRO</string>
+    <string name="selecionar_imagem_de_perfil_profileimagepicker">Selecionar imagem de perfil</string>
+    <string name="alterar_imagem_profileimagepicker">Alterar imagem</string>
 </resources>

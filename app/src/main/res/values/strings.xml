@@ -18,4 +18,7 @@
     <string name="retorna_a_tela_de_cadastro_singuppassword">Retorna a tela de cadastro</string>
     <string name="cadastre_sua_singuppassword">CADASTRE SUA</string>
     <string name="senha_singuppassword">SENHA</string>
+    <string name="insira_sua_senha_singuppassword">Insira sua senha</string>
+    <string name="insira_sua_senha_novamente_singuppassword">Insira sua senha novamente</string>
+    <string name="realizar_cadastro_singuppassword">Realizar Cadastro</string>
 </resources>

@@ -4,15 +4,23 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
@@ -24,8 +32,10 @@ import androidx.navigation.compose.rememberNavController
 import com.example.reclameaqui.R
 import com.example.reclameaqui.navigation.ScreenType
 import com.example.reclameaqui.ui.theme.AzulForteText
+import com.example.reclameaqui.ui.theme.CinzaFracoTextField
 import com.example.reclameaqui.ui.theme.RosaBackground
 import com.example.reclameaqui.ui.theme.RoxoButton
+import com.example.reclameaqui.ui.theme.bodyFontFamily
 import com.example.reclameaqui.ui.theme.displayFontFamily
 
 @Composable
@@ -42,7 +52,7 @@ fun SingUpPassword(navController: NavController,
         ) {
             Column(
                 modifier = Modifier
-                    .padding(bottom = 90.dp)
+                    .padding(bottom = 200.dp)
             ) {
                 // Botão de retornar a página.
                 IconButton(
@@ -81,6 +91,88 @@ fun SingUpPassword(navController: NavController,
                     modifier = Modifier
                         .padding(start = 10.dp)
                 )
+            }
+
+            // SEÇÃO TEXTFIELDS
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxSize()
+            ) {
+
+                // TextField Senha.
+                TextField(
+                    value = "",
+                    onValueChange = { },
+                    placeholder = {
+                        Text(
+                            text = stringResource(R.string.insira_sua_senha_singuppassword),
+                            color = CinzaFracoTextField,
+                            fontFamily = bodyFontFamily
+                        )
+                    },
+                    singleLine = true,
+                    shape = RoundedCornerShape(25.dp),
+                    colors = TextFieldDefaults.colors(
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent,
+                        errorIndicatorColor = Color.Transparent,
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                        disabledContainerColor = Color.White,
+                        errorContainerColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 24.dp, end = 24.dp, bottom = 8.dp)
+                )
+
+                // TextField Confirme Sua Senha.
+                TextField(
+                    value = "",
+                    onValueChange = { },
+                    placeholder = {
+                        Text(
+                            text = stringResource(R.string.insira_sua_senha_novamente_singuppassword),
+                            color = CinzaFracoTextField,
+                            fontFamily = bodyFontFamily
+                        )
+                    },
+                    singleLine = true,
+                    shape = RoundedCornerShape(25.dp),
+                    colors = TextFieldDefaults.colors(
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent,
+                        errorIndicatorColor = Color.Transparent,
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                        disabledContainerColor = Color.White,
+                        errorContainerColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 24.dp, end = 24.dp, bottom = 8.dp)
+                )
+
+                Box(
+                    contentAlignment = Alignment.BottomCenter,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    // Botão "Entrar"
+                    Button(
+                        // enabled =
+                        onClick = { /*Função de Cadastro*/ },
+                        content = { Text(text = stringResource(R.string.realizar_cadastro_singuppassword),
+                            fontFamily = bodyFontFamily,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp)
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = RoxoButton),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 24.dp, end = 24.dp, bottom = 8.dp))
+                }
             }
         }
     }

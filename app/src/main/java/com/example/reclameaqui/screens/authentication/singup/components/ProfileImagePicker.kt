@@ -38,7 +38,7 @@ modifier: Modifier = Modifier) {
 
         // Ícone de câmera
         Box(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxSize(),
             contentAlignment = Alignment.BottomEnd
         ) {

@@ -17,3 +17,6 @@ val RosaBackground = Color(0xFFFFF1E6)
 // Cores de Texto.
 val AzulForteText = Color(0xFF127482)
 val CinzaFracoTextField = Color(0xFF6E6E6E)
+
+// Cores de Botão.
+val RoxoButton = Color(0xFF8871EB)

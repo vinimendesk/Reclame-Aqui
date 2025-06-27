@@ -24,7 +24,7 @@ import com.example.reclameaqui.R
 @Composable
 fun ProfileImagePicker(/*imageUrl: String?,
 onImageSelected: (Uri) -> Unit*/
-modifier: Modifier) {
+modifier: Modifier = Modifier) {
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()) {
@@ -32,13 +32,13 @@ modifier: Modifier) {
         * uri?.let { onImageSelected(it) }*/
     }
 
-    Box(modifier = Modifier
+    Box(modifier = modifier
         .size(120.dp)
         .clickable { launcher.launch("image/*") }) {
 
         // Ícone de câmera
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize(),
             contentAlignment = Alignment.BottomEnd
         ) {

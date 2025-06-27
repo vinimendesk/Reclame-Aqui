@@ -11,4 +11,11 @@
     <string name="cadastro_singUp">CADASTRO</string>
     <string name="selecionar_imagem_de_perfil_profileimagepicker">Selecionar imagem de perfil</string>
     <string name="alterar_imagem_profileimagepicker">Alterar imagem</string>
+    <string name="seu_nome_singup">Seu nome</string>
+    <string name="seu_email_singup">Seu email</string>
+    <string name="o_que_mais_te_agrada_singup">O que mais te agrada?</string>
+    <string name="o_que_mais_te_irrita_singup">O que mais te irrita?</string>
+    <string name="retorna_a_tela_de_cadastro_singuppassword">Retorna a tela de cadastro</string>
+    <string name="cadastre_sua_singuppassword">CADASTRE SUA</string>
+    <string name="senha_singuppassword">SENHA</string>
 </resources>

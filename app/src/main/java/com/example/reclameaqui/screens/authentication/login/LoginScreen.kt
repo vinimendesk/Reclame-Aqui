@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,19 +27,23 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.reclameaqui.ui.theme.AzulBackground
 import com.example.reclameaqui.R
+import com.example.reclameaqui.navigation.ScreenType
 import com.example.reclameaqui.ui.theme.AzulForteText
 import com.example.reclameaqui.ui.theme.CinzaFracoTextField
+import com.example.reclameaqui.ui.theme.RoxoButton
 import com.example.reclameaqui.ui.theme.bodyFontFamily
 import com.example.reclameaqui.ui.theme.displayFontFamily
 
 @Composable
 fun LoginScreen(
-    modifier: Modifier = Modifier
+    navController: NavController,
+    modifier: Modifier
 ) {
 
-    Box(modifier = Modifier
+    Box(modifier = modifier
         .fillMaxSize()
         .background(AzulBackground)) {
 
@@ -118,6 +123,7 @@ fun LoginScreen(
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp)
                 },
+                colors = ButtonDefaults.buttonColors(containerColor = RoxoButton),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 24.dp, end = 24.dp, bottom = 8.dp))
@@ -132,7 +138,7 @@ fun LoginScreen(
                 // TextButton "Cadastre-se"
                 TextButton(
                     // enabled =
-                    onClick = { /* Nav Tela de Cadastro */ },
+                    onClick = { navController.navigate(ScreenType.SINGUP.name) },
                     content = { Text(text = stringResource(R.string.cadastre_se_login),
                                 fontFamily = displayFontFamily,
                                 fontSize = 16.sp,
@@ -148,5 +154,5 @@ fun LoginScreen(
 @Preview
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen()
+    // LoginScreen()
 }

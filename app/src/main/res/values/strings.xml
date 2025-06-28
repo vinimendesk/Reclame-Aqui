@@ -21,4 +21,6 @@
     <string name="insira_sua_senha_singuppassword">Insira sua senha</string>
     <string name="insira_sua_senha_novamente_singuppassword">Insira sua senha novamente</string>
     <string name="realizar_cadastro_singuppassword">Realizar Cadastro</string>
+    <string name="reclama_es_recentcomplaints">Reclamações</string>
+    <string name="recentes_recentcomplaints">Recentes</string>
 </resources>

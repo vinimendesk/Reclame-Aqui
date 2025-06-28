@@ -52,7 +52,7 @@ fun SingUpPassword(navController: NavController,
         ) {
             Column(
                 modifier = Modifier
-                    .padding(bottom = 200.dp)
+                    .padding(bottom = 160.dp)
             ) {
                 // Botão de retornar a página.
                 IconButton(

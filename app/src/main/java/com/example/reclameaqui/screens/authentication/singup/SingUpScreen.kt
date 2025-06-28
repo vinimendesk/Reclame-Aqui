@@ -52,7 +52,7 @@ fun SingUpScreen(
         ) {
             Column(
                 modifier = Modifier
-                    .padding(bottom = 90.dp)
+                    .padding(bottom = 70.dp)
             ) {
                 // Botão de retornar a página.
                 IconButton(
@@ -87,7 +87,7 @@ fun SingUpScreen(
             ) {
 
                 // Botão de escolha da imagem de perfil.
-                ProfileImagePicker(modifier = Modifier.padding(bottom = 90.dp))
+                ProfileImagePicker(modifier = Modifier.padding(bottom = 70.dp))
 
                 // SEÇÃO TEXTFIELDS
                 // TextField Nome.

@@ -9,6 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.reclameaqui.screens.authentication.login.LoginScreen
 import com.example.reclameaqui.screens.authentication.singup.SingUpPassword
 import com.example.reclameaqui.screens.authentication.singup.SingUpScreen
+import com.example.reclameaqui.screens.main.recentvomplaintsscreen.RecentComplaintsScreen
 
 @Composable
 fun AppNavigation(
@@ -38,11 +39,16 @@ fun AppNavigation(
             SingUpPassword(navController, modifier)
         }
 
+        composable(ScreenType.RECENTCOMPLAINTS.name) {
+            RecentComplaintsScreen(navController, modifier)
+        }
+
     }
 }
 
 enum class ScreenType(screen: String) {
     LOGIN("Tela de Login"),
     SINGUP("Tela de Cadastro"),
-    SINGUPPASSWORD("Tela de Cadastro de Senha")
+    SINGUPPASSWORD("Tela de Cadastro de Senha"),
+    RECENTCOMPLAINTS("Reclamacoes recentes")
 }

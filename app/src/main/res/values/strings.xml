@@ -23,4 +23,6 @@
     <string name="realizar_cadastro_singuppassword">Realizar Cadastro</string>
     <string name="reclama_es_recentcomplaints">Reclamações</string>
     <string name="recentes_recentcomplaints">Recentes</string>
+    <string name="imagem_do_autor_complaintcard">Imagem do autor.</string>
+    <string name="postado_em_as_complaintcard">Postado em %1$s às %2$s</string>
 </resources>

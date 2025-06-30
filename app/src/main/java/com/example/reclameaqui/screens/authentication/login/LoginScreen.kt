@@ -117,7 +117,7 @@ fun LoginScreen(
             // Botão "Entrar"
             Button(
                 // enabled = 
-                onClick = { /*Função de Login*/ },
+                onClick = { /*Função de Login*/ navController.navigate(ScreenType.RECENTCOMPLAINTS.name) },
                 content = { Text(text = stringResource(R.string.entrar_loginscreen),
                     fontFamily = bodyFontFamily,
                     fontWeight = FontWeight.Bold,

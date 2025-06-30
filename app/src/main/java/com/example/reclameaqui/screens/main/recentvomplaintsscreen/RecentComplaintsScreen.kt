@@ -1,4 +1,4 @@
-package com.example.reclameaqui.screens.main
+package com.example.reclameaqui.screens.main.recentvomplaintsscreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -12,22 +12,31 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.reclameaqui.R
+import com.example.reclameaqui.screens.main.recentvomplaintsscreen.components.ComplaintCard
 import com.example.reclameaqui.ui.theme.AzulForteText
 import com.example.reclameaqui.ui.theme.AzulFracoBackground
 import com.example.reclameaqui.ui.theme.displayFontFamily
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
-fun RecentComplaintsScreen(modifier: Modifier) {
+fun RecentComplaintsScreen(
+    navController: NavController,
+    modifier: Modifier
+) {
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .background(AzulFracoBackground)
             .fillMaxSize()
     ) {
@@ -40,7 +49,7 @@ fun RecentComplaintsScreen(modifier: Modifier) {
                 fontFamily = displayFontFamily,
                 color = AzulForteText,
                 textAlign = TextAlign.Center,
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 24.dp))
 
@@ -51,7 +60,7 @@ fun RecentComplaintsScreen(modifier: Modifier) {
                 fontFamily = displayFontFamily,
                 color = AzulForteText,
                 textAlign = TextAlign.Center,
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 24.dp))
 
@@ -60,7 +69,17 @@ fun RecentComplaintsScreen(modifier: Modifier) {
                 .height(1.5.dp)
                 .background(Color.Black)
                 .fillMaxWidth()
+                .padding(bottom = 12.dp)
                 )
+
+            // CardReclamação.
+            // Futuro LazyColumn.
+            ComplaintCard("Vinicius Mendes", "Olá, eu sou o vini", LocalDateTime.now())
+            ComplaintCard("Edvaldo Correa", "Reclamando das reclamação mantendo a reclamação", LocalDateTime.now())
+            ComplaintCard("Katia de Jesus", """
+                Testando o app com textos exorbitantes e vendo como ficaria no resultado final.
+                Isso não deixa de ser uma reclamação.
+            """.trimIndent(), LocalDateTime.now())
 
         }
     }
@@ -69,5 +88,6 @@ fun RecentComplaintsScreen(modifier: Modifier) {
 @Preview
 @Composable
 fun RecentComplaintsScreenPreview() {
-    RecentComplaintsScreen(modifier = Modifier)
+    val navControler = rememberNavController()
+    RecentComplaintsScreen(navControler, modifier = Modifier)
 }

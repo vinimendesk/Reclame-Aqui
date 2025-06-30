@@ -34,7 +34,7 @@ modifier: Modifier = Modifier) {
 
     Box(modifier = modifier
         .size(120.dp)
-        .clickable { launcher.launch("image/*") }) {
+        ) {
 
         // Ícone de câmera
         Box(
@@ -56,6 +56,7 @@ modifier: Modifier = Modifier) {
                 .fillMaxSize()
                 .clip(CircleShape)
                 .background(Color.Gray.copy(alpha = 0.2f))
+                .clickable { launcher.launch("image/*") }
         ) {
             /*if (imageUrl != null) {
                 AsyncImage(

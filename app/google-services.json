@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1070459925740",
+    "project_id": "reclame-aqui-acdaa",
+    "storage_bucket": "reclame-aqui-acdaa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1070459925740:android:948b62eeb1b3fb7354e1c9",
+        "android_client_info": {
+          "package_name": "com.example.reclameaqui"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6LE3XHCN_JKrkobsi5HtTrMWG4FJHgXc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,17 +2,18 @@ package com.example.reclameaqui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.reclameaqui.auth.AuthViewModel
 import com.example.reclameaqui.screens.authentication.login.LoginScreen
 import com.example.reclameaqui.screens.authentication.singup.SingUpPassword
-import com.example.reclameaqui.screens.authentication.singup.SingUpScreen
+import com.example.reclameaqui.screens.authentication.singup.first.SingUpScreen
 import com.example.reclameaqui.screens.main.recentvomplaintsscreen.RecentComplaintsScreen
 
 @Composable
 fun AppNavigation(
+    authViewModel: AuthViewModel,
     modifier: Modifier
 ) {
 

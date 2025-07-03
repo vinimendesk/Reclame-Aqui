@@ -1,4 +1,4 @@
-package com.example.reclameaqui.screens.authentication.singup.components
+package com.example.reclameaqui.screens.authentication.singup.first.components
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts

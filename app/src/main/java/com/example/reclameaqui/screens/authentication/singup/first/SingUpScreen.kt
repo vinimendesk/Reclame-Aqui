@@ -1,4 +1,4 @@
-package com.example.reclameaqui.screens.authentication.singup
+package com.example.reclameaqui.screens.authentication.singup.first
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -29,7 +29,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.reclameaqui.R
 import com.example.reclameaqui.navigation.ScreenType
-import com.example.reclameaqui.screens.authentication.singup.components.ProfileImagePicker
+import com.example.reclameaqui.screens.authentication.singup.first.components.ProfileImagePicker
 import com.example.reclameaqui.ui.theme.AzulForteText
 import com.example.reclameaqui.ui.theme.CinzaFracoTextField
 import com.example.reclameaqui.ui.theme.RosaBackground

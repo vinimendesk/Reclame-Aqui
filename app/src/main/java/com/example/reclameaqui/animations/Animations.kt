@@ -1,12 +1,15 @@
 package com.example.reclameaqui.animations
 
+import androidx.compose.ui.graphics.Color
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.keyframes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import com.example.reclameaqui.ui.theme.CinzaFracoTextField
 
-// Animação de shake.
+// Animação de shake horizontal.
 @Composable
 fun shakeAnimation(trigger: Boolean): Float {
     val offsetX = remember { Animatable(0f) }
@@ -33,3 +36,22 @@ fun shakeAnimation(trigger: Boolean): Float {
 
     return offsetX.value
 }
+
+// Troca de cores Red / White. TextField.
+@Composable
+fun errorContainerColor(showError: Boolean): Color {
+    return animateColorAsState(
+        targetValue = if (showError) Color.Red else Color.White,
+        label = "containerColor"
+    ).value
+}
+
+// Troca de cores texto White / CinzaFraco.
+@Composable
+fun errorTextColor(showError: Boolean): Color {
+    return animateColorAsState(
+        targetValue = if (showError) Color.White else CinzaFracoTextField,
+        label = "textColor"
+    ).value
+}
+

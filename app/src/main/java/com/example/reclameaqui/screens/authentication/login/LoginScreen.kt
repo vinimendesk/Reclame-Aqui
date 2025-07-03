@@ -36,12 +36,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.animation.core.*
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.graphicsLayer
 import com.example.reclameaqui.ui.theme.AzulBackground
 import com.example.reclameaqui.R
+import com.example.reclameaqui.animations.errorContainerColor
+import com.example.reclameaqui.animations.errorTextColor
 import com.example.reclameaqui.animations.shakeAnimation
 import com.example.reclameaqui.navigation.ScreenType
 import com.example.reclameaqui.ui.theme.AzulForteText
@@ -62,10 +61,14 @@ fun LoginScreen(
     // Variáveis TextFields.
     val emailError = loginUiState.emailError
     val emailShake = shakeAnimation(emailError)
+    val emailColor = errorContainerColor(emailError)
+    val emailText = errorTextColor(emailError)
     val email = loginUiState.email
 
     val passwordError = loginUiState.passwordError
     val passwordShake = shakeAnimation(passwordError)
+    val passwordColor = errorContainerColor(passwordError)
+    val passwordText = errorTextColor(passwordError)
     val password = loginUiState.password
 
     Box(modifier = modifier
@@ -102,11 +105,11 @@ fun LoginScreen(
                 },
                 placeholder = { Text(
                     text = stringResource(R.string.e_mail_loginscreen),
-                    color = CinzaFracoTextField,
+                    color = emailText,
                     fontFamily = bodyFontFamily
                 ) },
                 singleLine = true,
-                isError = emailError,
+                // isError = emailError, Define o estado de error do TextField
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 shape = RoundedCornerShape(25.dp),
                 colors = TextFieldDefaults.colors(
@@ -114,10 +117,10 @@ fun LoginScreen(
                     focusedIndicatorColor = Color.Transparent,
                     disabledIndicatorColor = Color.Transparent,
                     errorIndicatorColor = Color.Transparent,
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White,
-                    disabledContainerColor = Color.White,
-                    errorContainerColor = Color.Red
+                    focusedContainerColor = emailColor,
+                    unfocusedContainerColor = emailColor,
+                    disabledContainerColor = emailColor,
+                    errorContainerColor = emailColor
                 ),
                 modifier = Modifier
                     .graphicsLayer { translationX = emailShake }
@@ -137,11 +140,11 @@ fun LoginScreen(
                                 },
                 placeholder = { Text(
                     text = stringResource(R.string.senha_loginscreen),
-                    color = CinzaFracoTextField,
+                    color = passwordColor,
                     fontFamily = bodyFontFamily
                 ) },
                 singleLine = true,
-                isError = passwordError,
+                // isError = passwordError, Define o estado de erro do TextField
                 shape = RoundedCornerShape(25.dp),
                 keyboardActions = KeyboardActions(
                     onDone = {
@@ -159,10 +162,10 @@ fun LoginScreen(
                     focusedIndicatorColor = Color.Transparent,
                     disabledIndicatorColor = Color.Transparent,
                     errorIndicatorColor = Color.Transparent,
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White,
-                    disabledContainerColor = Color.White,
-                    errorContainerColor = Color.Red
+                    focusedContainerColor = passwordColor,
+                    unfocusedContainerColor = passwordColor,
+                    disabledContainerColor = passwordColor,
+                    errorContainerColor = passwordColor
                 ),
                 modifier = Modifier
                     .graphicsLayer { translationX = passwordShake }

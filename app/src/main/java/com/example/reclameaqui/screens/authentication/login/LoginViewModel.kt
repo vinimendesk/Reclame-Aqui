@@ -1,9 +1,12 @@
 package com.example.reclameaqui.screens.authentication.login
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
 
@@ -26,7 +29,15 @@ class LoginViewModel : ViewModel() {
     }
 
     fun showValidationErrors() {
-        _loginUiState.update { it.copy(showErrors = true) }
+        _loginUiState.update {
+            it.copy(showErrors = true)
+        }
+
+        // Aguarda 2 segundos em uma corrotina e retorna falso.
+        viewModelScope.launch {
+            delay(1000)
+            _loginUiState.update { it.copy(showErrors = false) }
+        }
     }
 
 }

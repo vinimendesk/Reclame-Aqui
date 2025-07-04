@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -18,21 +19,28 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.reclameaqui.R
+import com.example.reclameaqui.animations.errorContainerColor
+import com.example.reclameaqui.animations.errorTextColor
+import com.example.reclameaqui.animations.shakeAnimation
 import com.example.reclameaqui.navigation.ScreenType
 import com.example.reclameaqui.ui.theme.AzulForteText
-import com.example.reclameaqui.ui.theme.CinzaFracoTextField
 import com.example.reclameaqui.ui.theme.RosaBackground
 import com.example.reclameaqui.ui.theme.RoxoButton
 import com.example.reclameaqui.ui.theme.bodyFontFamily
@@ -41,6 +49,13 @@ import com.example.reclameaqui.ui.theme.displayFontFamily
 @Composable
 fun SingUpPassword(navController: NavController,
     modifier: Modifier) {
+
+    val singUpViewModel: SingUpViewModel = viewModel()
+    val singUpUiState: SingUpUiState by singUpViewModel.singUpUiState.collectAsState()
+
+    // ShakeAnimation para erros nos TextFields.
+    val passwordError = shakeAnimation(singUpUiState.passwordError, null)
+    val passwordAgainError = shakeAnimation(singUpUiState.passwordAgainError, singUpUiState.incorrectPasswordAgain)
 
     Box(modifier = modifier
         .fillMaxSize()
@@ -101,40 +116,46 @@ fun SingUpPassword(navController: NavController,
 
                 // TextField Senha.
                 TextField(
-                    value = "",
-                    onValueChange = { },
+                    value = singUpUiState.password,
+                    onValueChange = { password ->
+                        singUpViewModel.onPasswordChange(password)
+                    },
                     placeholder = {
                         Text(
                             text = stringResource(R.string.insira_sua_senha_singuppassword),
-                            color = CinzaFracoTextField,
+                            color = errorTextColor(singUpUiState.passwordError, null),
                             fontFamily = bodyFontFamily
                         )
                     },
                     singleLine = true,
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                     shape = RoundedCornerShape(25.dp),
                     colors = TextFieldDefaults.colors(
                         unfocusedIndicatorColor = Color.Transparent,
                         focusedIndicatorColor = Color.Transparent,
                         disabledIndicatorColor = Color.Transparent,
                         errorIndicatorColor = Color.Transparent,
-                        focusedContainerColor = Color.White,
-                        unfocusedContainerColor = Color.White,
-                        disabledContainerColor = Color.White,
-                        errorContainerColor = Color.White
+                        focusedContainerColor = errorContainerColor(singUpUiState.passwordError, null),
+                        unfocusedContainerColor = errorContainerColor(singUpUiState.passwordError, null),
+                        disabledContainerColor = errorContainerColor(singUpUiState.passwordError, null),
+                        errorContainerColor = errorContainerColor(singUpUiState.passwordError, null)
                     ),
                     modifier = Modifier
+                        .graphicsLayer { translationX = passwordError }
                         .fillMaxWidth()
                         .padding(start = 24.dp, end = 24.dp, bottom = 8.dp)
                 )
 
                 // TextField Confirme Sua Senha.
                 TextField(
-                    value = "",
-                    onValueChange = { },
+                    value = singUpUiState.passwordAgain,
+                    onValueChange = { passwordAgain ->
+                        singUpViewModel.onPasswordAgainChange(passwordAgain)
+                    },
                     placeholder = {
                         Text(
                             text = stringResource(R.string.insira_sua_senha_novamente_singuppassword),
-                            color = CinzaFracoTextField,
+                            color = errorTextColor(singUpUiState.passwordAgainError, null),
                             fontFamily = bodyFontFamily
                         )
                     },
@@ -145,12 +166,13 @@ fun SingUpPassword(navController: NavController,
                         focusedIndicatorColor = Color.Transparent,
                         disabledIndicatorColor = Color.Transparent,
                         errorIndicatorColor = Color.Transparent,
-                        focusedContainerColor = Color.White,
-                        unfocusedContainerColor = Color.White,
-                        disabledContainerColor = Color.White,
-                        errorContainerColor = Color.White
+                        focusedContainerColor = errorContainerColor(singUpUiState.passwordAgainError, singUpUiState.incorrectPasswordAgain),
+                        unfocusedContainerColor = errorContainerColor(singUpUiState.passwordAgainError, singUpUiState.incorrectPasswordAgain),
+                        disabledContainerColor = errorContainerColor(singUpUiState.passwordAgainError, singUpUiState.incorrectPasswordAgain),
+                        errorContainerColor = errorContainerColor(singUpUiState.passwordAgainError, singUpUiState.incorrectPasswordAgain)
                     ),
                     modifier = Modifier
+                        .graphicsLayer { translationX = passwordAgainError }
                         .fillMaxWidth()
                         .padding(start = 24.dp, end = 24.dp, bottom = 8.dp)
                 )
@@ -159,10 +181,16 @@ fun SingUpPassword(navController: NavController,
                     contentAlignment = Alignment.BottomCenter,
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    // Botão "Entrar"
+                    // Botão "Realizar Cadastro"
                     Button(
                         // enabled =
-                        onClick = { /*Função de Cadastro*/ },
+                        onClick = {
+                            singUpViewModel.showValidationErrors()
+
+                            if (singUpUiState.isValidSingUpPassword) {
+                                navController.navigate(ScreenType.LOGIN.name)
+                            }
+                        },
                         content = { Text(text = stringResource(R.string.realizar_cadastro_singuppassword),
                             fontFamily = bodyFontFamily,
                             fontWeight = FontWeight.Bold,

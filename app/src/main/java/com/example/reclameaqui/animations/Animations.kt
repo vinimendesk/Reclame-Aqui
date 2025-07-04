@@ -11,10 +11,10 @@ import com.example.reclameaqui.ui.theme.CinzaFracoTextField
 
 // Animação de shake horizontal.
 @Composable
-fun shakeAnimation(trigger: Boolean): Float {
+fun shakeAnimation(trigger: Boolean, trigger2: Boolean?): Float {
     val offsetX = remember { Animatable(0f) }
 
-    if (trigger) {
+    if (trigger || trigger2 == true) {
         LaunchedEffect(Unit) {
             offsetX.animateTo(
                 targetValue = 0f,
@@ -39,18 +39,18 @@ fun shakeAnimation(trigger: Boolean): Float {
 
 // Troca de cores Red / White. TextField.
 @Composable
-fun errorContainerColor(showError: Boolean): Color {
+fun errorContainerColor(showError: Boolean, showError2: Boolean?): Color {
     return animateColorAsState(
-        targetValue = if (showError) Color.Red else Color.White,
+        targetValue = if (showError || showError2 == true) Color.Red else Color.White,
         label = "containerColor"
     ).value
 }
 
 // Troca de cores texto White / CinzaFraco.
 @Composable
-fun errorTextColor(showError: Boolean): Color {
+fun errorTextColor(showError: Boolean, showError2: Boolean?): Color {
     return animateColorAsState(
-        targetValue = if (showError) Color.White else CinzaFracoTextField,
+        targetValue = if (showError || showError2 == true) Color.White else CinzaFracoTextField,
         label = "textColor"
     ).value
 }

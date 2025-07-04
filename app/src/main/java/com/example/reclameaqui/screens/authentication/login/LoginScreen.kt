@@ -1,5 +1,7 @@
 package com.example.reclameaqui.screens.authentication.login
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 
 import androidx.compose.foundation.background
@@ -37,6 +39,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import com.example.reclameaqui.ui.theme.AzulBackground
 import com.example.reclameaqui.R
 import com.example.reclameaqui.animations.errorContainerColor
@@ -57,18 +60,19 @@ fun LoginScreen(
 
     val loginViewModel: LoginViewModel = viewModel()
     val loginUiState by loginViewModel.loginUiState.collectAsState()
+    val context = LocalContext.current
 
     // Variáveis TextFields.
     val emailError = loginUiState.emailError
-    val emailShake = shakeAnimation(emailError)
-    val emailColor = errorContainerColor(emailError)
-    val emailText = errorTextColor(emailError)
+    val emailShake = shakeAnimation(emailError, null)
+    val emailColor = errorContainerColor(emailError, null)
+    val emailText = errorTextColor(emailError, null)
     val email = loginUiState.email
 
     val passwordError = loginUiState.passwordError
-    val passwordShake = shakeAnimation(passwordError)
-    val passwordColor = errorContainerColor(passwordError)
-    val passwordText = errorTextColor(passwordError)
+    val passwordShake = shakeAnimation(passwordError, null)
+    val passwordColor = errorContainerColor(passwordError, null)
+    val passwordText = errorTextColor(passwordError, null)
     val password = loginUiState.password
 
     Box(modifier = modifier
@@ -98,10 +102,6 @@ fun LoginScreen(
             TextField(value = email,
                 onValueChange = { email ->
                     loginViewModel.onEmailChange(email)
-
-                    if (loginUiState.showErrors) {
-                        loginViewModel.showValidationErrors()
-                    }
                 },
                 placeholder = { Text(
                     text = stringResource(R.string.e_mail_loginscreen),
@@ -133,14 +133,10 @@ fun LoginScreen(
             TextField(value = password,
                 onValueChange = { password ->
                     loginViewModel.onPasswordChange(password)
-                    
-                    if (loginUiState.showErrors) {
-                        loginViewModel.showValidationErrors()
-                    }
                                 },
                 placeholder = { Text(
                     text = stringResource(R.string.senha_loginscreen),
-                    color = passwordColor,
+                    color = passwordText,
                     fontFamily = bodyFontFamily
                 ) },
                 singleLine = true,
@@ -149,7 +145,7 @@ fun LoginScreen(
                 keyboardActions = KeyboardActions(
                     onDone = {
 
-                        loginViewModel.showValidationErrors()
+                        loginViewModel.showValidationErrors(context)
 
                         if (loginUiState.isValid) {
                             navController.navigate(ScreenType.RECENTCOMPLAINTS.name)
@@ -177,7 +173,7 @@ fun LoginScreen(
                 // enabled = 
                 onClick = {
 
-                    loginViewModel.showValidationErrors()
+                    loginViewModel.showValidationErrors(context)
 
                     if (loginUiState.isValid) {
                         navController.navigate(ScreenType.RECENTCOMPLAINTS.name)

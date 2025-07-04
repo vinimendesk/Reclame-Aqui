@@ -8,7 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.reclameaqui.auth.AuthViewModel
 import com.example.reclameaqui.screens.authentication.login.LoginScreen
 import com.example.reclameaqui.screens.authentication.singup.SingUpPassword
-import com.example.reclameaqui.screens.authentication.singup.first.SingUpScreen
+import com.example.reclameaqui.screens.authentication.singup.SingUpScreen
 import com.example.reclameaqui.screens.main.recentvomplaintsscreen.RecentComplaintsScreen
 
 @Composable

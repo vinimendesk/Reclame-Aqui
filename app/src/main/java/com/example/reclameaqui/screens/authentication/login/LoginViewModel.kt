@@ -1,5 +1,8 @@
 package com.example.reclameaqui.screens.authentication.login
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
@@ -28,10 +31,19 @@ class LoginViewModel : ViewModel() {
         )
     }
 
-    fun showValidationErrors() {
+    fun showValidationErrors(context: Context) {
         _loginUiState.update {
             it.copy(showErrors = true)
         }
+
+        /* if (loginUiState.value.emailError || loginUiState.value.passwordError) {
+            Toast.makeText(
+                context,
+                "Email ou senha não podem estarem vazio.",
+                Toast.LENGTH_SHORT
+            ).show()
+            Log.d("AuthError", "Email ou senha vazios")
+        } */
 
         // Aguarda 2 segundos em uma corrotina e retorna falso.
         viewModelScope.launch {

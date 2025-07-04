@@ -47,11 +47,11 @@ import com.example.reclameaqui.ui.theme.displayFontFamily
 
 @Composable
 fun SingUpScreen(
+    singUpViewModel: SingUpViewModel,
     navController: NavController,
     modifier: Modifier
 ) {
 
-    val singUpViewModel: SingUpViewModel = viewModel()
     val singUpUiState by singUpViewModel.singUpUiState.collectAsState()
 
     // Shakeanimation nos TextField vazios.
@@ -268,6 +268,6 @@ fun SingUpScreen(
 @Preview
 @Composable
 fun SingUpScreenPreview() {
-    val navControler = rememberNavController()
-    SingUpScreen(navControler, modifier = Modifier)
+    /*val navControler = rememberNavController()
+    SingUpScreen(navControler, modifier = Modifier)*/
 }

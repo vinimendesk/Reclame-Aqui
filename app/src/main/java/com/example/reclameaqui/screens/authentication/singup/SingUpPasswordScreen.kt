@@ -47,10 +47,11 @@ import com.example.reclameaqui.ui.theme.bodyFontFamily
 import com.example.reclameaqui.ui.theme.displayFontFamily
 
 @Composable
-fun SingUpPassword(navController: NavController,
+fun SingUpPassword(
+    singUpViewModel: SingUpViewModel,
+    navController: NavController,
     modifier: Modifier) {
 
-    val singUpViewModel: SingUpViewModel = viewModel()
     val singUpUiState: SingUpUiState by singUpViewModel.singUpUiState.collectAsState()
 
     // ShakeAnimation para erros nos TextFields.
@@ -210,6 +211,6 @@ fun SingUpPassword(navController: NavController,
 @Preview
 @Composable
 fun SingUpPasswordPreview() {
-    val navController = rememberNavController()
-    SingUpPassword(navController, modifier = Modifier)
+    /*val navController = rememberNavController()
+    SingUpPassword(navController, modifier = Modifier)*/
 }

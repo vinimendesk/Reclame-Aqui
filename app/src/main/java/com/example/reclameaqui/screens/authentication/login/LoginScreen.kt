@@ -1,5 +1,7 @@
 package com.example.reclameaqui.screens.authentication.login
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 
 import androidx.compose.foundation.background
@@ -10,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -17,6 +21,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,9 +32,19 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import com.example.reclameaqui.ui.theme.AzulBackground
 import com.example.reclameaqui.R
+import com.example.reclameaqui.animations.errorContainerColor
+import com.example.reclameaqui.animations.errorTextColor
+import com.example.reclameaqui.animations.shakeAnimation
 import com.example.reclameaqui.navigation.ScreenType
 import com.example.reclameaqui.ui.theme.AzulForteText
 import com.example.reclameaqui.ui.theme.CinzaFracoTextField
@@ -42,6 +57,23 @@ fun LoginScreen(
     navController: NavController,
     modifier: Modifier
 ) {
+
+    val loginViewModel: LoginViewModel = viewModel()
+    val loginUiState by loginViewModel.loginUiState.collectAsState()
+    val context = LocalContext.current
+
+    // Variáveis TextFields.
+    val emailError = loginUiState.emailError
+    val emailShake = shakeAnimation(emailError, null)
+    val emailColor = errorContainerColor(emailError, null)
+    val emailText = errorTextColor(emailError, null)
+    val email = loginUiState.email
+
+    val passwordError = loginUiState.passwordError
+    val passwordShake = shakeAnimation(passwordError, null)
+    val passwordColor = errorContainerColor(passwordError, null)
+    val passwordText = errorTextColor(passwordError, null)
+    val password = loginUiState.password
 
     Box(modifier = modifier
         .fillMaxSize()
@@ -67,57 +99,87 @@ fun LoginScreen(
                     .padding(bottom = 24.dp))
 
             // TextField E-mail.
-            TextField(value = "",
-                onValueChange = { },
+            TextField(value = email,
+                onValueChange = { email ->
+                    loginViewModel.onEmailChange(email)
+                },
                 placeholder = { Text(
                     text = stringResource(R.string.e_mail_loginscreen),
-                    color = CinzaFracoTextField,
+                    color = emailText,
                     fontFamily = bodyFontFamily
                 ) },
                 singleLine = true,
+                // isError = emailError, Define o estado de error do TextField
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 shape = RoundedCornerShape(25.dp),
                 colors = TextFieldDefaults.colors(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     disabledIndicatorColor = Color.Transparent,
                     errorIndicatorColor = Color.Transparent,
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White,
-                    disabledContainerColor = Color.White,
-                    errorContainerColor = Color.White
+                    focusedContainerColor = emailColor,
+                    unfocusedContainerColor = emailColor,
+                    disabledContainerColor = emailColor,
+                    errorContainerColor = emailColor
                 ),
                 modifier = Modifier
+                    .graphicsLayer { translationX = emailShake }
                     .fillMaxWidth()
                     .padding(start = 24.dp, end = 24.dp, bottom = 8.dp))
 
             // TextField Senha.
-            TextField(value = "",
-                onValueChange = { },
+            val keyboardController = LocalSoftwareKeyboardController.current
+
+            TextField(value = password,
+                onValueChange = { password ->
+                    loginViewModel.onPasswordChange(password)
+                                },
                 placeholder = { Text(
                     text = stringResource(R.string.senha_loginscreen),
-                    color = CinzaFracoTextField,
+                    color = passwordText,
                     fontFamily = bodyFontFamily
                 ) },
                 singleLine = true,
+                // isError = passwordError, Define o estado de erro do TextField
                 shape = RoundedCornerShape(25.dp),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+
+                        loginViewModel.showValidationErrors(context)
+
+                        if (loginUiState.isValid) {
+                            navController.navigate(ScreenType.RECENTCOMPLAINTS.name)
+                        }
+
+                    }
+                ),
                 colors = TextFieldDefaults.colors(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     disabledIndicatorColor = Color.Transparent,
                     errorIndicatorColor = Color.Transparent,
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White,
-                    disabledContainerColor = Color.White,
-                    errorContainerColor = Color.White
+                    focusedContainerColor = passwordColor,
+                    unfocusedContainerColor = passwordColor,
+                    disabledContainerColor = passwordColor,
+                    errorContainerColor = passwordColor
                 ),
                 modifier = Modifier
+                    .graphicsLayer { translationX = passwordShake }
                     .fillMaxWidth()
                     .padding(start = 24.dp, end = 24.dp, bottom = 8.dp))
 
             // Botão "Entrar"
             Button(
                 // enabled = 
-                onClick = { /*Função de Login*/ navController.navigate(ScreenType.RECENTCOMPLAINTS.name) },
+                onClick = {
+
+                    loginViewModel.showValidationErrors(context)
+
+                    if (loginUiState.isValid) {
+                        navController.navigate(ScreenType.RECENTCOMPLAINTS.name)
+                    }
+
+                },
                 content = { Text(text = stringResource(R.string.entrar_loginscreen),
                     fontFamily = bodyFontFamily,
                     fontWeight = FontWeight.Bold,
@@ -154,5 +216,6 @@ fun LoginScreen(
 @Preview
 @Composable
 fun LoginScreenPreview() {
-    // LoginScreen()
+    val navController = rememberNavController()
+    LoginScreen(navController, Modifier)
 }

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -17,17 +18,25 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.reclameaqui.R
+import com.example.reclameaqui.animations.errorContainerColor
+import com.example.reclameaqui.animations.errorTextColor
+import com.example.reclameaqui.animations.shakeAnimation
 import com.example.reclameaqui.navigation.ScreenType
 import com.example.reclameaqui.screens.authentication.singup.components.ProfileImagePicker
 import com.example.reclameaqui.ui.theme.AzulForteText
@@ -41,6 +50,13 @@ fun SingUpScreen(
     navController: NavController,
     modifier: Modifier
 ) {
+
+    val singUpViewModel: SingUpViewModel = viewModel()
+    val singUpUiState by singUpViewModel.singUpUiState.collectAsState()
+
+    // Shakeanimation nos TextField vazios.
+    val nameColor = shakeAnimation(singUpUiState.nameError, null)
+    val emailColor = shakeAnimation(singUpUiState.emailError, null)
 
     Box(modifier = modifier
         .fillMaxSize()
@@ -92,64 +108,73 @@ fun SingUpScreen(
                 // SEÇÃO TEXTFIELDS
                 // TextField Nome.
                 TextField(
-                    value = "",
-                    onValueChange = { },
+                    value = singUpUiState.name,
+                    onValueChange = { name ->
+                        singUpViewModel.onNameChange(name)
+                    },
                     placeholder = {
                         Text(
                             text = stringResource(R.string.seu_nome_singup),
-                            color = CinzaFracoTextField,
+                            color = errorTextColor(singUpUiState.nameError, null),
                             fontFamily = bodyFontFamily
                         )
                     },
                     singleLine = true,
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                     shape = RoundedCornerShape(25.dp),
                     colors = TextFieldDefaults.colors(
                         unfocusedIndicatorColor = Color.Transparent,
                         focusedIndicatorColor = Color.Transparent,
                         disabledIndicatorColor = Color.Transparent,
                         errorIndicatorColor = Color.Transparent,
-                        focusedContainerColor = Color.White,
-                        unfocusedContainerColor = Color.White,
-                        disabledContainerColor = Color.White,
-                        errorContainerColor = Color.White
+                        focusedContainerColor = errorContainerColor(singUpUiState.nameError, null),
+                        unfocusedContainerColor = errorContainerColor(singUpUiState.nameError, null),
+                        disabledContainerColor = errorContainerColor(singUpUiState.nameError, null),
+                        errorContainerColor = errorContainerColor(singUpUiState.nameError, null)
                     ),
                     modifier = Modifier
+                        .graphicsLayer { translationX = nameColor }
                         .fillMaxWidth()
                         .padding(start = 24.dp, end = 24.dp, bottom = 8.dp)
                 )
 
                 // TextField E-mail
                 TextField(
-                    value = "",
-                    onValueChange = { },
+                    value = singUpUiState.email,
+                    onValueChange = { email ->
+                        singUpViewModel.onEmailChange(email)
+                    },
                     placeholder = {
                         Text(
                             text = stringResource(R.string.seu_email_singup),
-                            color = CinzaFracoTextField,
+                            color = errorTextColor(singUpUiState.nameError, null),
                             fontFamily = bodyFontFamily
                         )
                     },
                     singleLine = true,
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                     shape = RoundedCornerShape(25.dp),
                     colors = TextFieldDefaults.colors(
                         unfocusedIndicatorColor = Color.Transparent,
                         focusedIndicatorColor = Color.Transparent,
                         disabledIndicatorColor = Color.Transparent,
                         errorIndicatorColor = Color.Transparent,
-                        focusedContainerColor = Color.White,
-                        unfocusedContainerColor = Color.White,
-                        disabledContainerColor = Color.White,
-                        errorContainerColor = Color.White
+                        focusedContainerColor = errorContainerColor(singUpUiState.emailError, null),
+                        unfocusedContainerColor = errorContainerColor(singUpUiState.emailError, null),
+                        disabledContainerColor = errorContainerColor(singUpUiState.emailError, null),
+                        errorContainerColor = errorContainerColor(singUpUiState.emailError, null)
                     ),
                     modifier = Modifier
+                        .graphicsLayer { translationX = emailColor }
                         .fillMaxWidth()
                         .padding(start = 24.dp, end = 24.dp, bottom = 8.dp)
                 )
 
                 // TextField O que mais te agrada?.
                 TextField(
-                    value = "",
-                    onValueChange = { },
+                    value = singUpUiState.whatMoreLike,
+                    onValueChange = { whatMoreLike ->
+                        singUpViewModel.onWhatMoreLikeChange(whatMoreLike) },
                     placeholder = {
                         Text(
                             text = stringResource(R.string.o_que_mais_te_agrada_singup),
@@ -158,6 +183,7 @@ fun SingUpScreen(
                         )
                     },
                     singleLine = true,
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                     shape = RoundedCornerShape(25.dp),
                     colors = TextFieldDefaults.colors(
                         unfocusedIndicatorColor = Color.Transparent,
@@ -176,8 +202,9 @@ fun SingUpScreen(
 
                 // TextField O que mais te irrita?
                 TextField(
-                    value = "",
-                    onValueChange = { },
+                    value = singUpUiState.whatMoreDislike,
+                    onValueChange = { whatMoreDislike ->
+                        singUpViewModel.onWhatMoreDislikeChange(whatMoreDislike) },
                     placeholder = {
                         Text(
                             text = stringResource(R.string.o_que_mais_te_irrita_singup),
@@ -213,7 +240,14 @@ fun SingUpScreen(
     ) {
         // Botão para ir á página de cadastro de senha.
         IconButton(
-            onClick = { navController.navigate(ScreenType.SINGUPPASSWORD.name) },
+            onClick = {
+
+                singUpViewModel.showValidationErrors()
+
+                if (singUpUiState.isValidSingUP) {
+                    navController.navigate(ScreenType.SINGUPPASSWORD.name)
+                }
+                      },
             modifier = Modifier
                 .padding(end = 10.dp, bottom = 16.dp)
                 .size(40.dp)

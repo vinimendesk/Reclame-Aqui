@@ -15,11 +15,11 @@ import com.example.reclameaqui.screens.main.recentvomplaintsscreen.RecentComplai
 
 @Composable
 fun AppNavigation(
-    authViewModel: AuthViewModel,
     modifier: Modifier
 ) {
 
     val navController = rememberNavController()
+    val authViewModel: AuthViewModel = viewModel()
     val singUpViewModel: SingUpViewModel = viewModel()
 
     NavHost(
@@ -29,7 +29,7 @@ fun AppNavigation(
 
         // Tela de Login.
         composable(ScreenType.LOGIN.name) {
-            LoginScreen(navController, modifier)
+            LoginScreen(authViewModel, navController, modifier)
         }
 
         // ----- SEÇÃO CADASTRO -----
@@ -40,11 +40,11 @@ fun AppNavigation(
 
         // Teça cadastro de senha.
         composable(ScreenType.SINGUPPASSWORD.name) {
-            SingUpPassword(singUpViewModel, navController, modifier)
+            SingUpPassword(authViewModel, singUpViewModel, navController, modifier)
         }
 
         composable(ScreenType.RECENTCOMPLAINTS.name) {
-            RecentComplaintsScreen(navController, modifier)
+            RecentComplaintsScreen(authViewModel, navController, modifier)
         }
 
     }

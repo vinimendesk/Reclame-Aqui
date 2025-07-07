@@ -30,9 +30,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.reclameaqui.R
 import com.example.reclameaqui.animations.errorContainerColor
 import com.example.reclameaqui.animations.errorTextColor
@@ -147,7 +145,7 @@ fun SingUpScreen(
                     placeholder = {
                         Text(
                             text = stringResource(R.string.seu_email_singup),
-                            color = errorTextColor(singUpUiState.nameError, null),
+                            color = errorTextColor(singUpUiState.emailError, null),
                             fontFamily = bodyFontFamily
                         )
                     },

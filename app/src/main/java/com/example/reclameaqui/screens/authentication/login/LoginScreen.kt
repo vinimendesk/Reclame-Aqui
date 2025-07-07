@@ -21,6 +21,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,21 +46,24 @@ import com.example.reclameaqui.R
 import com.example.reclameaqui.animations.errorContainerColor
 import com.example.reclameaqui.animations.errorTextColor
 import com.example.reclameaqui.animations.shakeAnimation
+import com.example.reclameaqui.auth.AuthState
+import com.example.reclameaqui.auth.AuthViewModel
 import com.example.reclameaqui.navigation.ScreenType
 import com.example.reclameaqui.ui.theme.AzulForteText
-import com.example.reclameaqui.ui.theme.CinzaFracoTextField
 import com.example.reclameaqui.ui.theme.RoxoButton
 import com.example.reclameaqui.ui.theme.bodyFontFamily
 import com.example.reclameaqui.ui.theme.displayFontFamily
 
 @Composable
 fun LoginScreen(
+    authViewModel: AuthViewModel,
     navController: NavController,
     modifier: Modifier
 ) {
 
     val loginViewModel: LoginViewModel = viewModel()
     val loginUiState by loginViewModel.loginUiState.collectAsState()
+    val authState = authViewModel.authState.collectAsState()
     val context = LocalContext.current
 
     // Variáveis TextFields.
@@ -74,6 +78,20 @@ fun LoginScreen(
     val passwordColor = errorContainerColor(passwordError, null)
     val passwordText = errorTextColor(passwordError, null)
     val password = loginUiState.password
+
+    LaunchedEffect(authState.value) {
+        when(authState.value) {
+            is AuthState.Authenticated -> {
+                navController.navigate(ScreenType.RECENTCOMPLAINTS.name) {
+                    popUpTo(ScreenType.LOGIN.name) { inclusive = true }
+                }
+            }
+            is AuthState.Error -> Toast.makeText(context,
+                (authState.value as AuthState.Error).message,
+                Toast.LENGTH_SHORT).show()
+            else -> Unit
+        }
+    }
 
     Box(modifier = modifier
         .fillMaxSize()
@@ -170,13 +188,16 @@ fun LoginScreen(
 
             // Botão "Entrar"
             Button(
-                // enabled = 
+                enabled = authState.value != AuthState.Loading,
                 onClick = {
 
                     loginViewModel.showValidationErrors(context)
 
                     if (loginUiState.isValid) {
-                        navController.navigate(ScreenType.RECENTCOMPLAINTS.name)
+                        authViewModel.login(
+                            loginUiState.email,
+                            loginUiState.password,
+                            context)
                     }
 
                 },
@@ -199,7 +220,7 @@ fun LoginScreen(
                     color = AzulForteText)
                 // TextButton "Cadastre-se"
                 TextButton(
-                    // enabled =
+                    enabled = authState != AuthState.Loading,
                     onClick = { navController.navigate(ScreenType.SINGUP.name) },
                     content = { Text(text = stringResource(R.string.cadastre_se_login),
                                 fontFamily = displayFontFamily,
@@ -216,6 +237,7 @@ fun LoginScreen(
 @Preview
 @Composable
 fun LoginScreenPreview() {
+    val authViewModel: AuthViewModel = viewModel()
     val navController = rememberNavController()
-    LoginScreen(navController, Modifier)
+    LoginScreen(authViewModel, navController, Modifier)
 }

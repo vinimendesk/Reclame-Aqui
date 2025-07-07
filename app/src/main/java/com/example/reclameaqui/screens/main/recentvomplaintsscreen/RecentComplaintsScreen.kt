@@ -42,18 +42,18 @@ fun RecentComplaintsScreen(
     modifier: Modifier
 ) {
 
-    val authState = authViewModel.authState.collectAsState()
+//    val authState = authViewModel.authState.collectAsState()
 
-    LaunchedEffect(authState.value) {
-        when(authState.value) {
-            is AuthState.Unauthenticated -> {
-                navController.navigate(ScreenType.LOGIN.name) {
-                    popUpTo(ScreenType.RECENTCOMPLAINTS.name) { inclusive = true }
-                }
-            }
-            else -> Unit
-        }
-    }
+//    LaunchedEffect(authState.value) {
+//        when(authState.value) {
+//            is AuthState.Unauthenticated -> {
+//                navController.navigate(ScreenType.LOGIN.name) {
+//                    popUpTo(ScreenType.RECENTCOMPLAINTS.name) { inclusive = true }
+//                }
+//            }
+//            else -> Unit
+//        }
+//    }
 
     Box(
         modifier = modifier
@@ -100,6 +100,14 @@ fun RecentComplaintsScreen(
                 Testando o app com textos exorbitantes e vendo como ficaria no resultado final.
                 Isso não deixa de ser uma reclamação.
             """.trimIndent(), LocalDateTime.now())
+
+            Spacer(modifier = Modifier
+                .padding(start = 12.dp, end = 12.dp)
+                .height(1.5.dp)
+                .background(Color.Black)
+                .fillMaxWidth()
+                .padding(bottom = 12.dp, top = 12.dp)
+            )
 
         }
     }

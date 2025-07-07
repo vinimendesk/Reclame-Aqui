@@ -27,4 +27,5 @@
     <string name="postado_em_as_complaintcard">Postado em %1$s às %2$s</string>
     <string name="email_ou_senha_n_o_podem_estarem_vazios_Login">Email ou senha não podem estarem vazios.</string>
     <string name="algo_deu_errado_Login">Algo deu errado.</string>
+    <string name="reclama_es_recentes_bottomnavigationbar">Reclamações Recentes</string>
 </resources>

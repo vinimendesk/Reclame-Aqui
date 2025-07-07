@@ -1,7 +1,5 @@
 package com.example.reclameaqui.screens.authentication.login
 
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.Image
 
 import androidx.compose.foundation.background
@@ -21,7 +19,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -79,19 +76,15 @@ fun LoginScreen(
     val passwordText = errorTextColor(passwordError, null)
     val password = loginUiState.password
 
-    LaunchedEffect(authState.value) {
+    /*LaunchedEffect(authState.value) {
         when(authState.value) {
-            is AuthState.Authenticated -> {
-                navController.navigate(ScreenType.RECENTCOMPLAINTS.name) {
-                    popUpTo(ScreenType.LOGIN.name) { inclusive = true }
-                }
-            }
+            is AuthState.Authenticated -> MainNavigation(authViewModel, modifier)
             is AuthState.Error -> Toast.makeText(context,
                 (authState.value as AuthState.Error).message,
                 Toast.LENGTH_SHORT).show()
             else -> Unit
         }
-    }
+    }*/
 
     Box(modifier = modifier
         .fillMaxSize()
@@ -160,7 +153,7 @@ fun LoginScreen(
                 singleLine = true,
                 // isError = passwordError, Define o estado de erro do TextField
                 shape = RoundedCornerShape(25.dp),
-                keyboardActions = KeyboardActions(
+                /*keyboardActions = KeyboardActions(
                     onDone = {
 
                         loginViewModel.showValidationErrors(context)
@@ -170,7 +163,7 @@ fun LoginScreen(
                         }
 
                     }
-                ),
+                ),*/
                 colors = TextFieldDefaults.colors(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,

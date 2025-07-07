@@ -21,3 +21,6 @@ val CinzaFracoTextField = Color(0xFF6E6E6E)
 
 // Cores de Botão.
 val RoxoButton = Color(0xFF8871EB)
+
+// Cores ícone BottomNavigationBar.
+val CinzaFracoIcon = Color(0xFF7B7B7B)

@@ -66,7 +66,7 @@ fun SingUpPassword(
     val passwordError = shakeAnimation(singUpUiState.passwordError, null)
     val passwordAgainError = shakeAnimation(singUpUiState.passwordAgainError, singUpUiState.incorrectPasswordAgain)
 
-    LaunchedEffect(authState.value) {
+    /*LaunchedEffect(authState.value) {
         when(authState.value) {
             is AuthState.Authenticated -> {
                 navController.navigate(ScreenType.RECENTCOMPLAINTS.name) {
@@ -79,7 +79,7 @@ fun SingUpPassword(
                 Toast.LENGTH_SHORT).show()
             else -> Unit
         }
-    }
+    }*/
 
     Box(modifier = modifier
         .fillMaxSize()

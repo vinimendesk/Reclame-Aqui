@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -19,9 +21,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.reclameaqui.R
+import com.example.reclameaqui.auth.AuthState
+import com.example.reclameaqui.auth.AuthViewModel
+import com.example.reclameaqui.navigation.ScreenType
 import com.example.reclameaqui.screens.main.recentvomplaintsscreen.components.ComplaintCard
 import com.example.reclameaqui.ui.theme.AzulForteText
 import com.example.reclameaqui.ui.theme.AzulFracoBackground
@@ -31,9 +37,23 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun RecentComplaintsScreen(
+    authViewModel: AuthViewModel,
     navController: NavController,
     modifier: Modifier
 ) {
+
+    val authState = authViewModel.authState.collectAsState()
+
+    LaunchedEffect(authState.value) {
+        when(authState.value) {
+            is AuthState.Unauthenticated -> {
+                navController.navigate(ScreenType.LOGIN.name) {
+                    popUpTo(ScreenType.RECENTCOMPLAINTS.name) { inclusive = true }
+                }
+            }
+            else -> Unit
+        }
+    }
 
     Box(
         modifier = modifier
@@ -41,7 +61,7 @@ fun RecentComplaintsScreen(
             .fillMaxSize()
     ) {
 
-        Column () {
+        Column {
             // Reclamações
             Text(text = stringResource(R.string.reclama_es_recentcomplaints),
                 fontSize = 40.sp,
@@ -88,6 +108,7 @@ fun RecentComplaintsScreen(
 @Preview
 @Composable
 fun RecentComplaintsScreenPreview() {
+    val authViewModel: AuthViewModel = viewModel()
     val navControler = rememberNavController()
-    RecentComplaintsScreen(navControler, modifier = Modifier)
+    RecentComplaintsScreen(authViewModel ,navControler, modifier = Modifier)
 }

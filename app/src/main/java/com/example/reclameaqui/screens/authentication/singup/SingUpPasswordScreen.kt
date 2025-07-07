@@ -1,5 +1,6 @@
 package com.example.reclameaqui.screens.authentication.singup
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,12 +20,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -39,6 +42,8 @@ import com.example.reclameaqui.R
 import com.example.reclameaqui.animations.errorContainerColor
 import com.example.reclameaqui.animations.errorTextColor
 import com.example.reclameaqui.animations.shakeAnimation
+import com.example.reclameaqui.auth.AuthState
+import com.example.reclameaqui.auth.AuthViewModel
 import com.example.reclameaqui.navigation.ScreenType
 import com.example.reclameaqui.ui.theme.AzulForteText
 import com.example.reclameaqui.ui.theme.RosaBackground
@@ -47,15 +52,34 @@ import com.example.reclameaqui.ui.theme.bodyFontFamily
 import com.example.reclameaqui.ui.theme.displayFontFamily
 
 @Composable
-fun SingUpPassword(navController: NavController,
+fun SingUpPassword(
+    authViewModel: AuthViewModel,
+    singUpViewModel: SingUpViewModel,
+    navController: NavController,
     modifier: Modifier) {
 
-    val singUpViewModel: SingUpViewModel = viewModel()
+    val authState = authViewModel.authState.collectAsState()
     val singUpUiState: SingUpUiState by singUpViewModel.singUpUiState.collectAsState()
+    val context = LocalContext.current
 
     // ShakeAnimation para erros nos TextFields.
     val passwordError = shakeAnimation(singUpUiState.passwordError, null)
     val passwordAgainError = shakeAnimation(singUpUiState.passwordAgainError, singUpUiState.incorrectPasswordAgain)
+
+    LaunchedEffect(authState.value) {
+        when(authState.value) {
+            is AuthState.Authenticated -> {
+                navController.navigate(ScreenType.RECENTCOMPLAINTS.name) {
+                    popUpTo(ScreenType.SINGUPPASSWORD.name) { inclusive = true }
+                }
+            }
+            is AuthState.Error -> Toast.makeText(
+                context,
+                (authState.value as AuthState.Error).message,
+                Toast.LENGTH_SHORT).show()
+            else -> Unit
+        }
+    }
 
     Box(modifier = modifier
         .fillMaxSize()
@@ -183,12 +207,17 @@ fun SingUpPassword(navController: NavController,
                 ) {
                     // Botão "Realizar Cadastro"
                     Button(
-                        // enabled =
+                        enabled = authState != AuthState.Loading,
                         onClick = {
                             singUpViewModel.showValidationErrors()
 
                             if (singUpUiState.isValidSingUpPassword) {
-                                navController.navigate(ScreenType.LOGIN.name)
+                                authViewModel.singUp(
+                                    singUpUiState.email,
+                                    singUpUiState.password,
+                                    context,
+                                    navController
+                                )
                             }
                         },
                         content = { Text(text = stringResource(R.string.realizar_cadastro_singuppassword),
@@ -210,6 +239,6 @@ fun SingUpPassword(navController: NavController,
 @Preview
 @Composable
 fun SingUpPasswordPreview() {
-    val navController = rememberNavController()
-    SingUpPassword(navController, modifier = Modifier)
+    /*val navController = rememberNavController()
+    SingUpPassword(navController, modifier = Modifier)*/
 }

@@ -2,6 +2,7 @@ package com.example.reclameaqui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -9,15 +10,17 @@ import com.example.reclameaqui.auth.AuthViewModel
 import com.example.reclameaqui.screens.authentication.login.LoginScreen
 import com.example.reclameaqui.screens.authentication.singup.SingUpPassword
 import com.example.reclameaqui.screens.authentication.singup.SingUpScreen
+import com.example.reclameaqui.screens.authentication.singup.SingUpViewModel
 import com.example.reclameaqui.screens.main.recentvomplaintsscreen.RecentComplaintsScreen
 
 @Composable
 fun AppNavigation(
-    authViewModel: AuthViewModel,
     modifier: Modifier
 ) {
 
     val navController = rememberNavController()
+    val authViewModel: AuthViewModel = viewModel()
+    val singUpViewModel: SingUpViewModel = viewModel()
 
     NavHost(
         navController = navController,
@@ -26,22 +29,22 @@ fun AppNavigation(
 
         // Tela de Login.
         composable(ScreenType.LOGIN.name) {
-            LoginScreen(navController, modifier)
+            LoginScreen(authViewModel, navController, modifier)
         }
 
         // ----- SEÇÃO CADASTRO -----
         // Tela cadastro.
         composable(ScreenType.SINGUP.name) {
-            SingUpScreen(navController, modifier)
+            SingUpScreen(singUpViewModel, navController, modifier)
         }
 
         // Teça cadastro de senha.
         composable(ScreenType.SINGUPPASSWORD.name) {
-            SingUpPassword(navController, modifier)
+            SingUpPassword(authViewModel, singUpViewModel, navController, modifier)
         }
 
         composable(ScreenType.RECENTCOMPLAINTS.name) {
-            RecentComplaintsScreen(navController, modifier)
+            RecentComplaintsScreen(authViewModel, navController, modifier)
         }
 
     }

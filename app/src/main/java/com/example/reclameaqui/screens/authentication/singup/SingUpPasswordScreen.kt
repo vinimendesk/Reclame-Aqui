@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -97,6 +99,7 @@ fun SingUpPassword(
                 IconButton(
                     onClick = { navController.navigate(ScreenType.SINGUP.name) },
                     modifier = Modifier
+                        .systemBarsPadding()
                         .padding(start = 10.dp, top = 8.dp, bottom = 60.dp)
                         .size(40.dp)
 
@@ -228,6 +231,7 @@ fun SingUpPassword(
                         colors = ButtonDefaults.buttonColors(containerColor = RoxoButton),
                         modifier = Modifier
                             .fillMaxWidth()
+                            .navigationBarsPadding()
                             .padding(start = 24.dp, end = 24.dp, bottom = 8.dp))
                 }
             }

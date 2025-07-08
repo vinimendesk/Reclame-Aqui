@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.reclameaqui.navigation.ScreenType
+import com.example.reclameaqui.ui.theme.AzulFracoBackground
 import com.example.reclameaqui.ui.theme.CinzaFracoIcon
 
 
@@ -26,7 +27,7 @@ fun BottomNavigationBar(
 
     NavigationBar(
         modifier = modifier,
-        containerColor = Color.Transparent
+        containerColor = AzulFracoBackground
     ) {
         for (navItem in navigationItemContentList) {
             NavigationBarItem(
@@ -46,7 +47,7 @@ fun BottomNavigationBar(
                             tint = if (currentScreen == navItem.screenType) Color.Black
                                     else CinzaFracoIcon,
                             contentDescription = navItem.screenType.screen,
-                            modifier = Modifier.align(Alignment.Center)
+                            modifier = Modifier.align(Alignment.Center).size(30.dp)
                         )
                     }
                 },

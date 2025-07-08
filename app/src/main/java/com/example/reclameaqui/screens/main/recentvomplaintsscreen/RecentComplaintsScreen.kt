@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -96,18 +97,23 @@ fun RecentComplaintsScreen(
             // Futuro LazyColumn.
             ComplaintCard("Vinicius Mendes", "Olá, eu sou o vini", LocalDateTime.now())
             ComplaintCard("Edvaldo Correa", "Reclamando das reclamação mantendo a reclamação", LocalDateTime.now())
-            ComplaintCard("Katia de Jesus", """
+            /*ComplaintCard("Katia de Jesus", """
                 Testando o app com textos exorbitantes e vendo como ficaria no resultado final.
                 Isso não deixa de ser uma reclamação.
-            """.trimIndent(), LocalDateTime.now())
+            """.trimIndent(), LocalDateTime.now())*/
 
-            Spacer(modifier = Modifier
-                .padding(start = 12.dp, end = 12.dp)
-                .height(1.5.dp)
-                .background(Color.Black)
-                .fillMaxWidth()
-                .padding(bottom = 12.dp, top = 12.dp)
-            )
+            Box (
+                contentAlignment = Alignment.BottomCenter,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Spacer(
+                    modifier = Modifier
+                    .padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 12.dp)
+                    .height(1.5.dp)
+                    .background(Color.Black)
+                    .fillMaxWidth()
+                )
+            }
 
         }
     }

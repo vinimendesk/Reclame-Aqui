@@ -5,13 +5,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.currentComposer
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.reclameaqui.auth.AuthState
 import com.example.reclameaqui.auth.AuthViewModel
@@ -26,14 +26,13 @@ import com.example.reclameaqui.screens.main.recentvomplaintsscreen.RecentComplai
 
 @Composable
 fun AppNavigation(
-    navController: NavController,
     authViewModel: AuthViewModel,
     modifier: Modifier) {
 
     val authState = authViewModel.authState.collectAsState()
 
     when (authState.value) {
-        is AuthState.Authenticated -> MainNavigation(navController, authViewModel, modifier)
+        is AuthState.Authenticated -> MainNavigation(authViewModel, modifier)
         is AuthState.Unauthenticated -> AuthNavigation(authViewModel, modifier)
         else -> Unit
     }
@@ -77,23 +76,29 @@ fun AuthNavigation(
 // Grafo para as telas principais.
 @Composable
 fun MainNavigation(
-    navController: NavController,
     authViewModel: AuthViewModel,
     modifier: Modifier
 ) {
+
+    val navController = rememberNavController()
+
+    // Retorna o estado autal de qual tela está na pilha de navegação.
+    val navBackStackEntry = navController.currentBackStackEntryAsState()
+    // Acessamos a route do composable atual.
+    val currentDestination = navBackStackEntry.value?.destination?.route
+    // Procura no ScreenType, qual a route especifica atual, caso não encontre, retorne a RecentComplaints.
+    val currentScreen = ScreenType.entries.find { it.name == currentDestination } ?: ScreenType.RECENTCOMPLAINTS
 
     Scaffold(
         bottomBar = {
             BottomNavigationBar(
                 onTabPressed = { navController.navigate(it) },
                 navigationItemContentList = NavigationItemContentList.getNavigationContentList(),
-                modifier = Modifier.height(105.dp)
-                currentScreen = /*currentScreen*/,
+                modifier = Modifier.height(105.dp),
+                currentScreen = currentScreen
             )
         }
     ) { paddingValues ->
-
-        val navController = rememberNavController()
 
         NavHost(
             navController = navController,

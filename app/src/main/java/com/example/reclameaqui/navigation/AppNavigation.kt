@@ -21,6 +21,7 @@ import com.example.reclameaqui.screens.authentication.singup.SingUpScreen
 import com.example.reclameaqui.screens.authentication.singup.SingUpViewModel
 import com.example.reclameaqui.screens.main.bottomnavigationbar.BottomNavigationBar
 import com.example.reclameaqui.screens.main.bottomnavigationbar.NavigationItemContentList
+import com.example.reclameaqui.screens.main.familymembersscreen.FamilyMemberScreen
 import com.example.reclameaqui.screens.main.recentvomplaintsscreen.RecentComplaintsScreen
 
 
@@ -108,6 +109,11 @@ fun MainNavigation(
             // Tela reclamações.
             composable(ScreenType.RECENTCOMPLAINTS.name) {
                 RecentComplaintsScreen(authViewModel, navController, modifier.padding(paddingValues))
+            }
+
+            // Tela integrantes da familia.
+            composable(ScreenType.FAMILYMEMBERS.name) {
+                FamilyMemberScreen(authViewModel, navController, modifier.padding(paddingValues))
             }
 
         }

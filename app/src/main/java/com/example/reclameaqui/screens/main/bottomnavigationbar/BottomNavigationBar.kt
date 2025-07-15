@@ -32,7 +32,7 @@ fun BottomNavigationBar(
         for (navItem in navigationItemContentList) {
             NavigationBarItem(
                 selected = currentScreen == navItem.screenType,
-                onClick = { onTabPressed(navItem.screenType.screen) },
+                onClick = { onTabPressed(navItem.screenType.name) },
                 icon = {
                     Box(
                         contentAlignment = Alignment.Center,

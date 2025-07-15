@@ -16,10 +16,17 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.reclameaqui.auth.AuthViewModel
 import com.example.reclameaqui.navigation.AppNavigation
 import com.example.reclameaqui.ui.theme.ReclameAquiTheme
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class MainActivity : ComponentActivity() {
+
+    private lateinit var databaseReference: DatabaseReference
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Cria ou usa o nó/node(SCHEMA) Users.
+        databaseReference = FirebaseDatabase.getInstance().getReference("Reclame Aqui")
         enableEdgeToEdge()
         val authViewModel: AuthViewModel by viewModels()
         setContent {

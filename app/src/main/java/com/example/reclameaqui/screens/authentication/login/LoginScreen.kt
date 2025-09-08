@@ -1,5 +1,6 @@
 package com.example.reclameaqui.screens.authentication.login
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 
 import androidx.compose.foundation.background
@@ -19,6 +20,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,11 +47,11 @@ import com.example.reclameaqui.animations.errorTextColor
 import com.example.reclameaqui.animations.shakeAnimation
 import com.example.reclameaqui.auth.AuthState
 import com.example.reclameaqui.auth.AuthViewModel
+import com.example.reclameaqui.navigation.MainNavigation
 import com.example.reclameaqui.navigation.ScreenType
 import com.example.reclameaqui.ui.theme.AzulForteText
 import com.example.reclameaqui.ui.theme.RoxoButton
-import com.example.reclameaqui.ui.theme.bodyFontFamily
-import com.example.reclameaqui.ui.theme.displayFontFamily
+import com.example.reclameaqui.ui.theme.poppinsFontFamily
 
 @Composable
 fun LoginScreen(
@@ -104,7 +106,7 @@ fun LoginScreen(
             Text(text = stringResource(R.string.reclame_aqui_loginscreen),
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Black,
-                fontFamily = displayFontFamily,
+                fontFamily = poppinsFontFamily(),
                 color = AzulForteText,
                 modifier = Modifier
                     .padding(bottom = 24.dp))
@@ -117,7 +119,7 @@ fun LoginScreen(
                 placeholder = { Text(
                     text = stringResource(R.string.e_mail_loginscreen),
                     color = emailText,
-                    fontFamily = bodyFontFamily
+                    fontFamily = poppinsFontFamily()
                 ) },
                 singleLine = true,
                 // isError = emailError, Define o estado de error do TextField
@@ -148,7 +150,7 @@ fun LoginScreen(
                 placeholder = { Text(
                     text = stringResource(R.string.senha_loginscreen),
                     color = passwordText,
-                    fontFamily = bodyFontFamily
+                    fontFamily = poppinsFontFamily()
                 ) },
                 singleLine = true,
                 // isError = passwordError, Define o estado de erro do TextField
@@ -195,7 +197,7 @@ fun LoginScreen(
 
                 },
                 content = { Text(text = stringResource(R.string.entrar_loginscreen),
-                    fontFamily = bodyFontFamily,
+                    fontFamily = poppinsFontFamily(),
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp)
                 },
@@ -207,7 +209,7 @@ fun LoginScreen(
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 // Text "Primeira vez aqui?"
                 Text(text = stringResource(R.string.primeira_vez_aqui_loginscreen),
-                    fontFamily = displayFontFamily,
+                    fontFamily = poppinsFontFamily(),
                     fontWeight = FontWeight.Black,
                     fontSize = 16.sp,
                     color = AzulForteText)
@@ -216,7 +218,7 @@ fun LoginScreen(
                     enabled = authState != AuthState.Loading,
                     onClick = { navController.navigate(ScreenType.SINGUP.name) },
                     content = { Text(text = stringResource(R.string.cadastre_se_login),
-                                fontFamily = displayFontFamily,
+                                fontFamily = poppinsFontFamily(),
                                 fontSize = 16.sp,
                                 color = AzulForteText,
                                 textDecoration = TextDecoration.Underline)}

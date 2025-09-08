@@ -33,6 +33,7 @@ import com.example.reclameaqui.screens.main.recentvomplaintsscreen.components.Co
 import com.example.reclameaqui.ui.theme.AzulForteText
 import com.example.reclameaqui.ui.theme.AzulFracoBackground
 import com.example.reclameaqui.ui.theme.displayFontFamily
+import com.example.reclameaqui.ui.theme.poppinsFontFamily
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -67,7 +68,7 @@ fun RecentComplaintsScreen(
             Text(text = stringResource(R.string.reclama_es_recentcomplaints),
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Black,
-                fontFamily = displayFontFamily,
+                fontFamily = poppinsFontFamily(),
                 color = AzulForteText,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -78,7 +79,7 @@ fun RecentComplaintsScreen(
             Text(text = stringResource(R.string.recentes_recentcomplaints),
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Black,
-                fontFamily = displayFontFamily,
+                fontFamily = poppinsFontFamily(),
                 color = AzulForteText,
                 textAlign = TextAlign.Center,
                 modifier = Modifier

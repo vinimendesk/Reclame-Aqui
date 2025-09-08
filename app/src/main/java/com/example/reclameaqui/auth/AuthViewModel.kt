@@ -84,6 +84,12 @@ class AuthViewModel : ViewModel() {
         _authState.value = authState
     }
 
+    // Função para deslogar.
+    fun signOut() {
+        auth.signOut()
+        _authState.value = AuthState.Unauthenticated
+    }
+
 }
 
 sealed class AuthState {

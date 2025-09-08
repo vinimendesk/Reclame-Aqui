@@ -17,10 +17,14 @@ val AzulFracoBackground = Color(0xFFE9FAFF)
 
 // Cores de Texto.
 val AzulForteText = Color(0xFF127482)
+val RosaText = Color(0xFFFFF1E6)
 val CinzaFracoTextField = Color(0xFF6E6E6E)
+val RoxoText = Color(0xFF8871EB)
+val LaranjaText = Color(0xFFFF9A79)
 
 // Cores de Botão.
 val RoxoButton = Color(0xFF8871EB)
+val LaranjaButton = Color(0xFFFF9A79)
 
 // Cores ícone BottomNavigationBar.
 val CinzaFracoIcon = Color(0xFF7B7B7B)

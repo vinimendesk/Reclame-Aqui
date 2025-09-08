@@ -26,22 +26,22 @@ object NavigationItemContentList {
             NavigationItemContent(
                 screenType = ScreenType.RECENTCOMPLAINTS,
                 icon = Icons.AutoMirrored.Filled.Chat,
-                text = ScreenType.RECENTCOMPLAINTS.screen
+                text = ScreenType.RECENTCOMPLAINTS.name
             ),
             NavigationItemContent(
                 screenType = ScreenType.FAMILYMEMBERS,
                 icon = Icons.Default.Groups,
-                text = ScreenType.FAMILYMEMBERS.screen
+                text = ScreenType.FAMILYMEMBERS.name
             ),
             NavigationItemContent(
                 screenType = ScreenType.MAKEACOMPLAINT,
                 icon = Icons.Default.Edit,
-                text = ScreenType.RECENTCOMPLAINTS.screen
+                text = ScreenType.RECENTCOMPLAINTS.name
             ),
             NavigationItemContent(
                 screenType = ScreenType.PROFILE,
                 icon = Icons.Default.PersonPin,
-                text = ScreenType.RECENTCOMPLAINTS.screen
+                text = ScreenType.RECENTCOMPLAINTS.name
             )
         )
     }

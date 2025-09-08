@@ -33,4 +33,20 @@
     <string name="reclamações_familymembercard">Reclamações: %1$d</string>
     <string name="integrantes_da_familymemberscreen">Integrantes da</string>
     <string name="familia_familymemberscreen">Familia</string>
+    <string name="faca_uma_postComplaints">Faça uma</string>
+    <string name="reclamacao_postComplaints">reclamação</string>
+    <string name="o_que_te_incomoda_hoje_postComplaints">O que te incomoda hoje?</string>
+    <string name="escreva_o_que_te_incomoda_postComplaints">Escreva o que te incomoda...</string>
+    <string name="eu_profilescreen">Eu, </string>
+    <string name="sair_do_usu_rio_profileScreen">Sair do usuário</string>
+    <string name="sair_profileScreen">Sair</string>
+    <string name="fechar_caixa_de_di_logo_singOutDialog">Fechar caixa de diálogo</string>
+    <string name="tem_certeza_que_quer_sair_SingOutDialog">Tem certeza que quer sair?</string>
+    <string name="sim_singOutDialog">Sim</string>
+    <string name="n_o_singOutDialog">Não</string>
+    <string name="seu_nome_userInformation">Seu nome</string>
+    <string name="alterar_informacao_userInformation">Alterar %1$s</string>
+    <string name="voce_postou_x_reclamacoes_profileScreen">Você postou %1$d reclamações</string>
+    <string name="visualizar_minhas_reclama_es_profileScreen">Visualizar minhas reclamações</string>
+    <string name="fazer_reclama_o_makeComplaint">Fazer Reclamação</string>
 </resources>

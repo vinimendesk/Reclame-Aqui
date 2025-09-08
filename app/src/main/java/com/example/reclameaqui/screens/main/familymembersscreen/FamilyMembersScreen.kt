@@ -35,6 +35,7 @@ import com.example.reclameaqui.screens.main.recentvomplaintsscreen.components.Co
 import com.example.reclameaqui.ui.theme.AzulForteText
 import com.example.reclameaqui.ui.theme.AzulFracoBackground
 import com.example.reclameaqui.ui.theme.displayFontFamily
+import com.example.reclameaqui.ui.theme.poppinsFontFamily
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -69,7 +70,7 @@ fun FamilyMemberScreen(
             Text(text = stringResource(R.string.integrantes_da_familymemberscreen),
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Black,
-                fontFamily = displayFontFamily,
+                fontFamily = poppinsFontFamily(),
                 color = AzulForteText,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -80,7 +81,7 @@ fun FamilyMemberScreen(
             Text(text = stringResource(R.string.familia_familymemberscreen),
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Black,
-                fontFamily = displayFontFamily,
+                fontFamily = poppinsFontFamily(),
                 color = AzulForteText,
                 textAlign = TextAlign.Center,
                 modifier = Modifier

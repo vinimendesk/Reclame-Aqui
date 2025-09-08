@@ -1,6 +1,6 @@
 package com.example.reclameaqui.screens.authentication.singup
 
-import android.widget.Toast
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,7 +22,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -37,9 +36,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.reclameaqui.R
 import com.example.reclameaqui.animations.errorContainerColor
 import com.example.reclameaqui.animations.errorTextColor
@@ -50,8 +47,7 @@ import com.example.reclameaqui.navigation.ScreenType
 import com.example.reclameaqui.ui.theme.AzulForteText
 import com.example.reclameaqui.ui.theme.RosaBackground
 import com.example.reclameaqui.ui.theme.RoxoButton
-import com.example.reclameaqui.ui.theme.bodyFontFamily
-import com.example.reclameaqui.ui.theme.displayFontFamily
+import com.example.reclameaqui.ui.theme.poppinsFontFamily
 
 @Composable
 fun SingUpPassword(
@@ -117,7 +113,7 @@ fun SingUpPassword(
                     text = stringResource(R.string.cadastre_sua_singuppassword),
                     fontSize = 40.sp,
                     fontWeight = FontWeight.Black,
-                    fontFamily = displayFontFamily,
+                    fontFamily = poppinsFontFamily(),
                     color = AzulForteText,
                     modifier = Modifier
                         .padding(start = 10.dp)
@@ -127,7 +123,7 @@ fun SingUpPassword(
                     text = stringResource(R.string.senha_singuppassword),
                     fontSize = 40.sp,
                     fontWeight = FontWeight.Black,
-                    fontFamily = displayFontFamily,
+                    fontFamily = poppinsFontFamily(),
                     textDecoration = TextDecoration.Underline,
                     color = RoxoButton,
                     modifier = Modifier
@@ -151,7 +147,7 @@ fun SingUpPassword(
                         Text(
                             text = stringResource(R.string.insira_sua_senha_singuppassword),
                             color = errorTextColor(singUpUiState.passwordError, null),
-                            fontFamily = bodyFontFamily
+                            fontFamily = poppinsFontFamily()
                         )
                     },
                     singleLine = true,
@@ -183,7 +179,7 @@ fun SingUpPassword(
                         Text(
                             text = stringResource(R.string.insira_sua_senha_novamente_singuppassword),
                             color = errorTextColor(singUpUiState.passwordAgainError, null),
-                            fontFamily = bodyFontFamily
+                            fontFamily = poppinsFontFamily()
                         )
                     },
                     singleLine = true,
@@ -224,7 +220,7 @@ fun SingUpPassword(
                             }
                         },
                         content = { Text(text = stringResource(R.string.realizar_cadastro_singuppassword),
-                            fontFamily = bodyFontFamily,
+                            fontFamily = poppinsFontFamily(),
                             fontWeight = FontWeight.Bold,
                             fontSize = 20.sp)
                         },

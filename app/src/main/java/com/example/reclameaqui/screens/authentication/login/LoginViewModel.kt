@@ -36,14 +36,14 @@ class LoginViewModel : ViewModel() {
             it.copy(showErrors = true)
         }
 
-        /* if (loginUiState.value.emailError || loginUiState.value.passwordError) {
+        if (loginUiState.value.emailError || loginUiState.value.passwordError) {
             Toast.makeText(
                 context,
                 "Email ou senha não podem estarem vazio.",
                 Toast.LENGTH_SHORT
             ).show()
             Log.d("AuthError", "Email ou senha vazios")
-        } */
+        }
 
         // Aguarda 2 segundos em uma corrotina e retorna falso.
         viewModelScope.launch {

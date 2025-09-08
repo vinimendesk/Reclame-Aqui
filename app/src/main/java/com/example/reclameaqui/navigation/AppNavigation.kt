@@ -8,7 +8,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -22,6 +21,8 @@ import com.example.reclameaqui.screens.authentication.singup.SingUpViewModel
 import com.example.reclameaqui.screens.main.bottomnavigationbar.BottomNavigationBar
 import com.example.reclameaqui.screens.main.bottomnavigationbar.NavigationItemContentList
 import com.example.reclameaqui.screens.main.familymembersscreen.FamilyMemberScreen
+import com.example.reclameaqui.screens.main.postcomplaintscreen.PostComplaintsScreen
+import com.example.reclameaqui.screens.main.profilescreen.ProfileScreen
 import com.example.reclameaqui.screens.main.recentvomplaintsscreen.RecentComplaintsScreen
 
 
@@ -35,7 +36,8 @@ fun AppNavigation(
     when (authState.value) {
         is AuthState.Authenticated -> MainNavigation(authViewModel, modifier)
         is AuthState.Unauthenticated -> AuthNavigation(authViewModel, modifier)
-        else -> Unit
+        is AuthState.Error -> AuthNavigation(authViewModel, modifier)
+        is AuthState.Loading -> AuthNavigation(authViewModel, modifier)
     }
 
 }
@@ -114,6 +116,16 @@ fun MainNavigation(
             // Tela integrantes da familia.
             composable(ScreenType.FAMILYMEMBERS.name) {
                 FamilyMemberScreen(authViewModel, navController, modifier.padding(paddingValues))
+            }
+
+            // Tela postar reclamações.
+            composable(ScreenType.MAKEACOMPLAINT.name) {
+                PostComplaintsScreen(modifier.padding(paddingValues))
+            }
+
+            // Tela perfil.
+            composable(ScreenType.PROFILE.name) {
+                ProfileScreen(authViewModel, modifier.padding(paddingValues))
             }
 
         }

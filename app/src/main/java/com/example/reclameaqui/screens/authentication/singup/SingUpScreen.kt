@@ -44,6 +44,7 @@ import com.example.reclameaqui.ui.theme.CinzaFracoTextField
 import com.example.reclameaqui.ui.theme.RosaBackground
 import com.example.reclameaqui.ui.theme.bodyFontFamily
 import com.example.reclameaqui.ui.theme.displayFontFamily
+import com.example.reclameaqui.ui.theme.poppinsFontFamily
 
 @Composable
 fun SingUpScreen(
@@ -92,7 +93,7 @@ fun SingUpScreen(
                     text = stringResource(R.string.cadastro_singUp),
                     fontSize = 40.sp,
                     fontWeight = FontWeight.Black,
-                    fontFamily = displayFontFamily,
+                    fontFamily = poppinsFontFamily(),
                     color = AzulForteText,
                     modifier = Modifier
                         .padding(start = 10.dp)
@@ -117,7 +118,7 @@ fun SingUpScreen(
                         Text(
                             text = stringResource(R.string.seu_nome_singup),
                             color = errorTextColor(singUpUiState.nameError, null),
-                            fontFamily = bodyFontFamily
+                            fontFamily = poppinsFontFamily()
                         )
                     },
                     singleLine = true,
@@ -149,7 +150,7 @@ fun SingUpScreen(
                         Text(
                             text = stringResource(R.string.seu_email_singup),
                             color = errorTextColor(singUpUiState.emailError, null),
-                            fontFamily = bodyFontFamily
+                            fontFamily = poppinsFontFamily()
                         )
                     },
                     singleLine = true,
@@ -180,7 +181,7 @@ fun SingUpScreen(
                         Text(
                             text = stringResource(R.string.o_que_mais_te_agrada_singup),
                             color = CinzaFracoTextField,
-                            fontFamily = bodyFontFamily
+                            fontFamily = poppinsFontFamily()
                         )
                     },
                     singleLine = true,
@@ -210,7 +211,7 @@ fun SingUpScreen(
                         Text(
                             text = stringResource(R.string.o_que_mais_te_irrita_singup),
                             color = CinzaFracoTextField,
-                            fontFamily = bodyFontFamily
+                            fontFamily = poppinsFontFamily()
                         )
                     },
                     singleLine = true,

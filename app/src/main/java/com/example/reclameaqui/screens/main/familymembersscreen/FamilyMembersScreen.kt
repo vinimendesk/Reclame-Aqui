@@ -1,4 +1,4 @@
-package com.example.reclameaqui.screens.main.recentvomplaintsscreen
+package com.example.reclameaqui.screens.main.familymembersscreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -28,7 +28,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.reclameaqui.R
 import com.example.reclameaqui.auth.AuthState
 import com.example.reclameaqui.auth.AuthViewModel
+import com.example.reclameaqui.data.User
 import com.example.reclameaqui.navigation.ScreenType
+import com.example.reclameaqui.screens.main.familymembersscreen.components.FamilyMemberCard
 import com.example.reclameaqui.screens.main.recentvomplaintsscreen.components.ComplaintCard
 import com.example.reclameaqui.ui.theme.AzulForteText
 import com.example.reclameaqui.ui.theme.AzulFracoBackground
@@ -38,7 +40,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun RecentComplaintsScreen(
+fun FamilyMemberScreen(
     authViewModel: AuthViewModel,
     navController: NavController,
     modifier: Modifier
@@ -65,7 +67,7 @@ fun RecentComplaintsScreen(
 
         Column {
             // Reclamações
-            Text(text = stringResource(R.string.reclama_es_recentcomplaints),
+            Text(text = stringResource(R.string.integrantes_da_familymemberscreen),
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Black,
                 fontFamily = poppinsFontFamily(),
@@ -76,7 +78,7 @@ fun RecentComplaintsScreen(
                     .padding(top = 24.dp))
 
             // Recentes
-            Text(text = stringResource(R.string.recentes_recentcomplaints),
+            Text(text = stringResource(R.string.familia_familymemberscreen),
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Black,
                 fontFamily = poppinsFontFamily(),
@@ -92,16 +94,26 @@ fun RecentComplaintsScreen(
                 .background(Color.Black)
                 .fillMaxWidth()
                 .padding(bottom = 12.dp)
-                )
+            )
 
-            // CardReclamação.
+            // Card integrantes da família.
             // Futuro LazyColumn.
-            ComplaintCard("Vinicius Mendes", "Olá, eu sou o vini", LocalDateTime.now())
-            ComplaintCard("Edvaldo Correa", "Reclamando das reclamação mantendo a reclamação", LocalDateTime.now())
-            /*ComplaintCard("Katia de Jesus", """
-                Testando o app com textos exorbitantes e vendo como ficaria no resultado final.
-                Isso não deixa de ser uma reclamação.
-            """.trimIndent(), LocalDateTime.now())*/
+            FamilyMemberCard(
+                User(
+                    name = "Vinicius Mendes",
+                    whatLikeMore = "Jogar vôlei",
+                    whatDislikeMore = "Mexer em minhas coisas",
+                    complaintsCount = 1
+                )
+            )
+            FamilyMemberCard(
+                User(
+                    name = "Edvaldo Correa",
+                    whatLikeMore = "Assistir novela",
+                    whatDislikeMore = "Perderem as chaves",
+                    complaintsCount = 1
+                )
+            )
 
             Box (
                 contentAlignment = Alignment.BottomCenter,
@@ -109,10 +121,10 @@ fun RecentComplaintsScreen(
             ) {
                 Spacer(
                     modifier = Modifier
-                    .padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 12.dp)
-                    .height(1.5.dp)
-                    .background(Color.Black)
-                    .fillMaxWidth()
+                        .padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 12.dp)
+                        .height(1.5.dp)
+                        .background(Color.Black)
+                        .fillMaxWidth()
                 )
             }
 
@@ -122,8 +134,8 @@ fun RecentComplaintsScreen(
 
 @Preview
 @Composable
-fun RecentComplaintsScreenPreview() {
+fun FamilyMemberScreenPreview() {
     val authViewModel: AuthViewModel = viewModel()
     val navControler = rememberNavController()
-    RecentComplaintsScreen(authViewModel ,navControler, modifier = Modifier)
+    FamilyMemberScreen(authViewModel ,navControler, modifier = Modifier)
 }

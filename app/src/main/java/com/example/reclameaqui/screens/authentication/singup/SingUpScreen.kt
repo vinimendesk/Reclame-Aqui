@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -42,6 +44,7 @@ import com.example.reclameaqui.ui.theme.CinzaFracoTextField
 import com.example.reclameaqui.ui.theme.RosaBackground
 import com.example.reclameaqui.ui.theme.bodyFontFamily
 import com.example.reclameaqui.ui.theme.displayFontFamily
+import com.example.reclameaqui.ui.theme.poppinsFontFamily
 
 @Composable
 fun SingUpScreen(
@@ -52,7 +55,7 @@ fun SingUpScreen(
 
     val singUpUiState by singUpViewModel.singUpUiState.collectAsState()
 
-    // Shakeanimation nos TextField vazios.
+    // Shake animation nos TextField vazios.
     val nameColor = shakeAnimation(singUpUiState.nameError, null)
     val emailColor = shakeAnimation(singUpUiState.emailError, null)
 
@@ -66,13 +69,14 @@ fun SingUpScreen(
         ) {
             Column(
                 modifier = Modifier
-                    .padding(bottom = 70.dp)
+                    .padding(bottom = 35.dp)
             ) {
                 // Botão de retornar a página.
                 IconButton(
                     onClick = { navController.navigate(ScreenType.LOGIN.name) },
                     modifier = Modifier
-                        .padding(start = 10.dp, top = 8.dp, bottom = 60.dp)
+                        .systemBarsPadding()
+                        .padding(start = 10.dp, top = 8.dp, bottom = 20.dp)
                         .size(40.dp)
 
                 ) {
@@ -89,7 +93,7 @@ fun SingUpScreen(
                     text = stringResource(R.string.cadastro_singUp),
                     fontSize = 40.sp,
                     fontWeight = FontWeight.Black,
-                    fontFamily = displayFontFamily,
+                    fontFamily = poppinsFontFamily(),
                     color = AzulForteText,
                     modifier = Modifier
                         .padding(start = 10.dp)
@@ -101,7 +105,7 @@ fun SingUpScreen(
             ) {
 
                 // Botão de escolha da imagem de perfil.
-                ProfileImagePicker(modifier = Modifier.padding(bottom = 70.dp))
+                ProfileImagePicker(modifier = Modifier.padding(bottom = 35.dp))
 
                 // SEÇÃO TEXTFIELDS
                 // TextField Nome.
@@ -114,7 +118,7 @@ fun SingUpScreen(
                         Text(
                             text = stringResource(R.string.seu_nome_singup),
                             color = errorTextColor(singUpUiState.nameError, null),
-                            fontFamily = bodyFontFamily
+                            fontFamily = poppinsFontFamily()
                         )
                     },
                     singleLine = true,
@@ -146,7 +150,7 @@ fun SingUpScreen(
                         Text(
                             text = stringResource(R.string.seu_email_singup),
                             color = errorTextColor(singUpUiState.emailError, null),
-                            fontFamily = bodyFontFamily
+                            fontFamily = poppinsFontFamily()
                         )
                     },
                     singleLine = true,
@@ -177,7 +181,7 @@ fun SingUpScreen(
                         Text(
                             text = stringResource(R.string.o_que_mais_te_agrada_singup),
                             color = CinzaFracoTextField,
-                            fontFamily = bodyFontFamily
+                            fontFamily = poppinsFontFamily()
                         )
                     },
                     singleLine = true,
@@ -207,7 +211,7 @@ fun SingUpScreen(
                         Text(
                             text = stringResource(R.string.o_que_mais_te_irrita_singup),
                             color = CinzaFracoTextField,
-                            fontFamily = bodyFontFamily
+                            fontFamily = poppinsFontFamily()
                         )
                     },
                     singleLine = true,
@@ -243,10 +247,12 @@ fun SingUpScreen(
                 singUpViewModel.showValidationErrors()
 
                 if (singUpUiState.isValidSingUP) {
+                    singUpViewModel.showValidationErrosFalse()
                     navController.navigate(ScreenType.SINGUPPASSWORD.name)
                 }
                       },
             modifier = Modifier
+                .navigationBarsPadding()
                 .padding(end = 10.dp, bottom = 16.dp)
                 .size(40.dp)
 

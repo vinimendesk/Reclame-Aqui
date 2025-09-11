@@ -65,7 +65,9 @@ class AuthViewModel : ViewModel() {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    navController.navigate(ScreenType.LOGIN.name)
+                    navController.navigate(ScreenType.LOGIN.name) {
+                        popUpTo(ScreenType.SINGUPPASSWORD.name) { inclusive = true }
+                    }
                     Toast.makeText(
                         context,
                         "Usuário cadastrado com sucesso.",
@@ -80,6 +82,12 @@ class AuthViewModel : ViewModel() {
     // Função de alterar o authState.
     fun onAuthStateChange(authState: AuthState) {
         _authState.value = authState
+    }
+
+    // Função para deslogar.
+    fun signOut() {
+        auth.signOut()
+        _authState.value = AuthState.Unauthenticated
     }
 
 }

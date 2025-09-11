@@ -54,6 +54,12 @@ class SingUpViewModel: ViewModel() {
         )
     }
 
+    fun showValidationErrosFalse() {
+        _singUpUiState.value = _singUpUiState.value.copy(
+            showErrors = false
+        )
+    }
+
     fun showValidationErrors() {
         _singUpUiState.update {
             it.copy(showErrors = true)

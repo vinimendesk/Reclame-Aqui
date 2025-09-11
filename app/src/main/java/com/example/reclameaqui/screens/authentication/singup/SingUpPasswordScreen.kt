@@ -43,17 +43,20 @@ import com.example.reclameaqui.animations.errorTextColor
 import com.example.reclameaqui.animations.shakeAnimation
 import com.example.reclameaqui.auth.AuthState
 import com.example.reclameaqui.auth.AuthViewModel
+import com.example.reclameaqui.data.User
 import com.example.reclameaqui.navigation.ScreenType
 import com.example.reclameaqui.ui.theme.AzulForteText
 import com.example.reclameaqui.ui.theme.RosaBackground
 import com.example.reclameaqui.ui.theme.RoxoButton
 import com.example.reclameaqui.ui.theme.poppinsFontFamily
+import com.google.firebase.database.DatabaseReference
 
 @Composable
 fun SingUpPassword(
     authViewModel: AuthViewModel,
     singUpViewModel: SingUpViewModel,
     navController: NavController,
+    databaseReference: DatabaseReference,
     modifier: Modifier) {
 
     val authState = authViewModel.authState.collectAsState()
@@ -211,12 +214,32 @@ fun SingUpPassword(
                             singUpViewModel.showValidationErrors()
 
                             if (singUpUiState.isValidSingUpPassword) {
+                                // Realizar cadastro.
                                 authViewModel.singUp(
                                     singUpUiState.email,
                                     singUpUiState.password,
                                     context,
                                     navController
-                                )
+                                ) { firebaseUser -> // lambda do usuário retornado.
+
+                                    val userId = firebaseUser.uid // busca o uid do usuário criado.
+
+                                    // Desloga o usuário para permitir autenticação.
+                                    authViewModel.signOut()
+
+                                    // Faz o registro do usuário.
+                                    singUpViewModel.addUser(
+                                        databaseReference,
+                                        User(
+                                            userId,
+                                            singUpUiState.name,
+                                            singUpUiState.email,
+                                            singUpUiState.password,
+                                            singUpUiState.whatMoreLike,
+                                            singUpUiState.whatMoreDislike
+                                        )
+                                    )
+                                }
                             }
                         },
                         content = { Text(text = stringResource(R.string.realizar_cadastro_singuppassword),

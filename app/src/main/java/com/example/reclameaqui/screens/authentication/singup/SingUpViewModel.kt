@@ -1,7 +1,11 @@
 package com.example.reclameaqui.screens.authentication.singup
 
+import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.reclameaqui.data.User
+import com.google.firebase.database.DatabaseReference
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -70,6 +74,19 @@ class SingUpViewModel: ViewModel() {
             delay(1000)
             _singUpUiState.update { it.copy(showErrors = false) }
         }
+    }
+
+    // FUNÇÕES CRUD - FIREBASE
+    fun addUser(databaseReference: DatabaseReference, user: User) {
+        // Cria o child "Users" -> "user".
+        databaseReference.child("Users").child(user.id).setValue(user)
+        // Se child criado, log de sucesso.
+            .addOnCompleteListener {
+                Log.i("UserManager","Usuário cadastrado com sucesso") // Log de informação.
+            }
+            .addOnFailureListener { exception ->
+                Log.e("UserManager", "Erro ao cadastro usuário: ${exception.message}") // log de error.
+            }
     }
 
 }

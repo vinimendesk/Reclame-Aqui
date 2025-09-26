@@ -52,4 +52,10 @@ class LoginViewModel : ViewModel() {
         }
     }
 
+    fun togglePasswordVisbility() {
+        _loginUiState.update {
+            it.copy(passwordVisible = !_loginUiState.value.passwordVisible)
+        }
+    }
+
 }

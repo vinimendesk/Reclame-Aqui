@@ -13,7 +13,7 @@ data class SingUpUiState(
 
     val password: String = "",
     val passwordAgain: String = "",
-
+    val passwordVisible: Boolean = false // controla quando o aplicativo deve mostrar a senha.
 ) {
 
     // ----- SINGUP SCREEN -----

@@ -49,4 +49,6 @@
     <string name="voce_postou_x_reclamacoes_profileScreen">Você postou %1$d reclamações</string>
     <string name="visualizar_minhas_reclama_es_profileScreen">Visualizar minhas reclamações</string>
     <string name="fazer_reclama_o_makeComplaint">Fazer Reclamação</string>
+    <string name="n_o_mostrar_senha_passwordTextField">Não mostrar senha</string>
+    <string name="mostrar_senha_passwordTextField">Mostrar senha</string>
 </resources>

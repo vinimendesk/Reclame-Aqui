@@ -76,6 +76,12 @@ class SingUpViewModel: ViewModel() {
         }
     }
 
+    fun togglePasswordVisbility() {
+        _singUpUiState.update {
+            it.copy(passwordVisible = !_singUpUiState.value.passwordVisible)
+        }
+    }
+
     // FUNÇÕES CRUD - FIREBASE
     fun addUser(databaseReference: DatabaseReference, user: User) {
         // Cria o child "Users" -> "user".

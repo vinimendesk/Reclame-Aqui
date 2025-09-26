@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
         val authViewModel: AuthViewModel by viewModels()
         setContent {
             ReclameAquiTheme {
-                AppNavigation(authViewModel, modifier = Modifier)
+                AppNavigation(authViewModel, databaseReference, modifier = Modifier)
             }
         }
     }

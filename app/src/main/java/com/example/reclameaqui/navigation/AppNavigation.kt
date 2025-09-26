@@ -24,20 +24,22 @@ import com.example.reclameaqui.screens.main.familymembersscreen.FamilyMemberScre
 import com.example.reclameaqui.screens.main.postcomplaintscreen.PostComplaintsScreen
 import com.example.reclameaqui.screens.main.profilescreen.ProfileScreen
 import com.example.reclameaqui.screens.main.recentvomplaintsscreen.RecentComplaintsScreen
+import com.google.firebase.database.DatabaseReference
 
 
 @Composable
 fun AppNavigation(
     authViewModel: AuthViewModel,
+    databaseReference: DatabaseReference,
     modifier: Modifier) {
 
     val authState = authViewModel.authState.collectAsState()
 
     when (authState.value) {
-        is AuthState.Authenticated -> MainNavigation(authViewModel, modifier)
-        is AuthState.Unauthenticated -> AuthNavigation(authViewModel, modifier)
-        is AuthState.Error -> AuthNavigation(authViewModel, modifier)
-        is AuthState.Loading -> AuthNavigation(authViewModel, modifier)
+        is AuthState.Authenticated -> MainNavigation(authViewModel, databaseReference, modifier)
+        is AuthState.Unauthenticated -> AuthNavigation(authViewModel, databaseReference, modifier)
+        is AuthState.Error -> AuthNavigation(authViewModel, databaseReference, modifier)
+        is AuthState.Loading -> AuthNavigation(authViewModel, databaseReference,modifier)
     }
 
 }
@@ -46,6 +48,7 @@ fun AppNavigation(
 @Composable
 fun AuthNavigation(
     authViewModel: AuthViewModel,
+    databaseReference: DatabaseReference,
     modifier: Modifier
 ) {
 
@@ -70,7 +73,7 @@ fun AuthNavigation(
 
         // Teça cadastro de senha.
         composable(ScreenType.SINGUPPASSWORD.name) {
-            SingUpPassword(authViewModel, singUpViewModel, navController, modifier)
+            SingUpPassword(authViewModel, singUpViewModel, navController, databaseReference, modifier)
         }
 
     }
@@ -80,6 +83,7 @@ fun AuthNavigation(
 @Composable
 fun MainNavigation(
     authViewModel: AuthViewModel,
+    databaseReference: DatabaseReference,
     modifier: Modifier
 ) {
 

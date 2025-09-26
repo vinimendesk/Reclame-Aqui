@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import com.example.reclameaqui.R
 import com.example.reclameaqui.navigation.ScreenType
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -54,17 +55,32 @@ class AuthViewModel : ViewModel() {
     }
 
     // Função de cadastro.
-    fun singUp(email: String, password: String, context: Context, navController: NavController) {
+    fun singUp(
+        email: String,
+        password: String,
+        context: Context,
+        navController: NavController,
+        onUserCreated: (FirebaseUser) -> Unit) {
 
+        // Se email ou senha forem vazios, retorne erro.
         if (email.isEmpty() || password.isEmpty()) {
             _authState.value = AuthState.Error(context.getString(R.string.email_ou_senha_n_o_podem_estarem_vazios_Login))
             return
         }
 
+        // Estado de Loading enquanto sistema realiza cadastro.
         _authState.value = AuthState.Loading
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
+                // Se usuário cadastrado.
                 if (task.isSuccessful) {
+                    // Busque o usuário atual.
+                    val user = FirebaseAuth.getInstance().currentUser
+                    // Se usuário não for nulo, retorne o usuário buscado.
+                    if (user != null) {
+                        onUserCreated(user)
+                    }
+                    // Vá para a tela de Login.
                     navController.navigate(ScreenType.LOGIN.name) {
                         popUpTo(ScreenType.SINGUPPASSWORD.name) { inclusive = true }
                     }

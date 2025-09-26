@@ -13,11 +13,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -40,6 +45,8 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import com.example.reclameaqui.ui.theme.AzulBackground
 import com.example.reclameaqui.R
 import com.example.reclameaqui.animations.errorContainerColor
@@ -71,6 +78,7 @@ fun LoginScreen(
     val emailColor = errorContainerColor(emailError, null)
     val emailText = errorTextColor(emailError, null)
     val email = loginUiState.email
+    val passwordVisibility = loginUiState.passwordVisible
 
     val passwordError = loginUiState.passwordError
     val passwordShake = shakeAnimation(passwordError, null)
@@ -141,7 +149,7 @@ fun LoginScreen(
                     .padding(start = 24.dp, end = 24.dp, bottom = 8.dp))
 
             // TextField Senha.
-            val keyboardController = LocalSoftwareKeyboardController.current
+            // val keyboardController = LocalSoftwareKeyboardController.current
 
             TextField(value = password,
                 onValueChange = { password ->
@@ -166,6 +174,30 @@ fun LoginScreen(
 
                     }
                 ),*/
+                visualTransformation = if (passwordVisibility) {
+                    VisualTransformation.None
+                } else {
+                    PasswordVisualTransformation()
+                },
+                trailingIcon = {
+                    val image = if (passwordVisibility) {
+                        Icons.Filled.Visibility
+                    } else {
+                        Icons.Filled.VisibilityOff
+                    }
+                    IconButton(
+                        onClick = { loginViewModel.togglePasswordVisbility() }
+                    ) {
+                        Icon(
+                            image,
+                            contentDescription = if (passwordVisibility) {
+                                stringResource(R.string.n_o_mostrar_senha_passwordTextField)
+                            } else {
+                                stringResource(R.string.mostrar_senha_passwordTextField)
+                            }
+                        )
+                    }
+                },
                 colors = TextFieldDefaults.colors(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,

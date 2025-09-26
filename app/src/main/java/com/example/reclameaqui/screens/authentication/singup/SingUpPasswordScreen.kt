@@ -14,6 +14,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -32,6 +34,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -43,17 +47,20 @@ import com.example.reclameaqui.animations.errorTextColor
 import com.example.reclameaqui.animations.shakeAnimation
 import com.example.reclameaqui.auth.AuthState
 import com.example.reclameaqui.auth.AuthViewModel
+import com.example.reclameaqui.data.User
 import com.example.reclameaqui.navigation.ScreenType
 import com.example.reclameaqui.ui.theme.AzulForteText
 import com.example.reclameaqui.ui.theme.RosaBackground
 import com.example.reclameaqui.ui.theme.RoxoButton
 import com.example.reclameaqui.ui.theme.poppinsFontFamily
+import com.google.firebase.database.DatabaseReference
 
 @Composable
 fun SingUpPassword(
     authViewModel: AuthViewModel,
     singUpViewModel: SingUpViewModel,
     navController: NavController,
+    databaseReference: DatabaseReference,
     modifier: Modifier) {
 
     val authState = authViewModel.authState.collectAsState()
@@ -63,6 +70,8 @@ fun SingUpPassword(
     // ShakeAnimation para erros nos TextFields.
     val passwordError = shakeAnimation(singUpUiState.passwordError, null)
     val passwordAgainError = shakeAnimation(singUpUiState.passwordAgainError, singUpUiState.incorrectPasswordAgain)
+
+    val passwordVisibility = singUpUiState.passwordVisible
 
     /*LaunchedEffect(authState.value) {
         when(authState.value) {
@@ -153,6 +162,30 @@ fun SingUpPassword(
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                     shape = RoundedCornerShape(25.dp),
+                    visualTransformation = if (passwordVisibility) {
+                        VisualTransformation.None
+                    } else {
+                        PasswordVisualTransformation()
+                    },
+                    trailingIcon = {
+                        val image = if (passwordVisibility) {
+                            Icons.Filled.Visibility
+                        } else {
+                            Icons.Filled.VisibilityOff
+                        }
+                        IconButton(
+                            onClick = { singUpViewModel.togglePasswordVisbility() }
+                        ) {
+                            Icon(
+                                image,
+                                contentDescription = if (passwordVisibility) {
+                                    stringResource(R.string.n_o_mostrar_senha_passwordTextField)
+                                } else {
+                                    stringResource(R.string.mostrar_senha_passwordTextField)
+                                }
+                            )
+                        }
+                    },
                     colors = TextFieldDefaults.colors(
                         unfocusedIndicatorColor = Color.Transparent,
                         focusedIndicatorColor = Color.Transparent,
@@ -184,6 +217,30 @@ fun SingUpPassword(
                     },
                     singleLine = true,
                     shape = RoundedCornerShape(25.dp),
+                    visualTransformation = if (passwordVisibility) {
+                        VisualTransformation.None
+                    } else {
+                        PasswordVisualTransformation()
+                    },
+                    trailingIcon = {
+                        val image = if (passwordVisibility) {
+                            Icons.Filled.Visibility
+                        } else {
+                            Icons.Filled.VisibilityOff
+                        }
+                        IconButton(
+                            onClick = { singUpViewModel.togglePasswordVisbility() }
+                        ) {
+                            Icon(
+                                image,
+                                contentDescription = if (passwordVisibility) {
+                                    stringResource(R.string.n_o_mostrar_senha_passwordTextField)
+                                } else {
+                                    stringResource(R.string.mostrar_senha_passwordTextField)
+                                }
+                            )
+                        }
+                    },
                     colors = TextFieldDefaults.colors(
                         unfocusedIndicatorColor = Color.Transparent,
                         focusedIndicatorColor = Color.Transparent,
@@ -211,12 +268,32 @@ fun SingUpPassword(
                             singUpViewModel.showValidationErrors()
 
                             if (singUpUiState.isValidSingUpPassword) {
+                                // Realizar cadastro.
                                 authViewModel.singUp(
                                     singUpUiState.email,
                                     singUpUiState.password,
                                     context,
                                     navController
-                                )
+                                ) { firebaseUser -> // lambda do usuário retornado.
+
+                                    val userId = firebaseUser.uid // busca o uid do usuário criado.
+
+                                    // Desloga o usuário para permitir autenticação.
+                                    authViewModel.signOut()
+
+                                    // Faz o registro do usuário.
+                                    singUpViewModel.addUser(
+                                        databaseReference,
+                                        User(
+                                            userId,
+                                            singUpUiState.name,
+                                            singUpUiState.email,
+                                            singUpUiState.password,
+                                            singUpUiState.whatMoreLike,
+                                            singUpUiState.whatMoreDislike
+                                        )
+                                    )
+                                }
                             }
                         },
                         content = { Text(text = stringResource(R.string.realizar_cadastro_singuppassword),

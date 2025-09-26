@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,6 +37,7 @@ import com.example.reclameaqui.ui.theme.AzulForteText
 import com.example.reclameaqui.ui.theme.AzulFracoBackground
 import com.example.reclameaqui.ui.theme.displayFontFamily
 import com.example.reclameaqui.ui.theme.poppinsFontFamily
+import com.google.firebase.database.DatabaseReference
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -43,21 +45,19 @@ import java.time.format.DateTimeFormatter
 fun FamilyMemberScreen(
     authViewModel: AuthViewModel,
     navController: NavController,
+    databaseReference: DatabaseReference,
     modifier: Modifier
 ) {
 
-//    val authState = authViewModel.authState.collectAsState()
+    val familyMembersViewModel: FamilyMembersViewModel = viewModel()
+    val familyMembersUiState = familyMembersViewModel.familyMembersUiState.collectAsState()
 
-//    LaunchedEffect(authState.value) {
-//        when(authState.value) {
-//            is AuthState.Unauthenticated -> {
-//                navController.navigate(ScreenType.LOGIN.name) {
-//                    popUpTo(ScreenType.RECENTCOMPLAINTS.name) { inclusive = true }
-//                }
-//            }
-//            else -> Unit
-//        }
-//    }
+    val context = LocalContext.current
+
+    // Buscar os dados dos usuários.
+    LaunchedEffect(Unit) {
+        familyMembersViewModel.loadUsers(databaseReference, context)
+    }
 
     Box(
         modifier = modifier
@@ -98,7 +98,7 @@ fun FamilyMemberScreen(
 
             // Card integrantes da família.
             // Futuro LazyColumn.
-            FamilyMemberCard(
+            /*FamilyMemberCard(
                 User(
                     name = "Vinicius Mendes",
                     whatLikeMore = "Jogar vôlei",
@@ -113,7 +113,13 @@ fun FamilyMemberScreen(
                     whatDislikeMore = "Perderem as chaves",
                     complaintsCount = 1
                 )
-            )
+            )*/
+            LazyColumn {
+                items(familyMembersUiState.value.userList.size) { user ->
+                    val user = familyMembersUiState.value.userList[user]
+                    FamilyMemberCard(user)
+                }
+            }
 
             Box (
                 contentAlignment = Alignment.BottomCenter,
@@ -135,7 +141,7 @@ fun FamilyMemberScreen(
 @Preview
 @Composable
 fun FamilyMemberScreenPreview() {
-    val authViewModel: AuthViewModel = viewModel()
+    /*val authViewModel: AuthViewModel = viewModel()
     val navControler = rememberNavController()
-    FamilyMemberScreen(authViewModel ,navControler, modifier = Modifier)
+    FamilyMemberScreen(authViewModel ,navControler, modifier = Modifier)*/
 }

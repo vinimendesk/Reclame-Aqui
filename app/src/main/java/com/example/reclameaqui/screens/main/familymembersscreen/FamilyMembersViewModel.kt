@@ -1,6 +1,7 @@
 package com.example.reclameaqui.screens.main.familymembersscreen
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.example.reclameaqui.data.User
@@ -28,6 +29,7 @@ class FamilyMembersViewModel: ViewModel() {
                     onUsersListEmpty()
                     snapshot.children.forEach{
                         val user = it.getValue(User::class.java)
+                        Log.d("FIREBASE_USER", "User: $user")
                         user?.let { onUsersListAdd(user) }
                     }
                 }

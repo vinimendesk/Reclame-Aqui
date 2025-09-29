@@ -44,19 +44,6 @@ fun RecentComplaintsScreen(
     modifier: Modifier
 ) {
 
-//    val authState = authViewModel.authState.collectAsState()
-
-//    LaunchedEffect(authState.value) {
-//        when(authState.value) {
-//            is AuthState.Unauthenticated -> {
-//                navController.navigate(ScreenType.LOGIN.name) {
-//                    popUpTo(ScreenType.RECENTCOMPLAINTS.name) { inclusive = true }
-//                }
-//            }
-//            else -> Unit
-//        }
-//    }
-
     Box(
         modifier = modifier
             .background(AzulFracoBackground)

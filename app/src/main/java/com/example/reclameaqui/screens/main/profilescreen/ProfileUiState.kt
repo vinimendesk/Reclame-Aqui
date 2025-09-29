@@ -1,8 +1,8 @@
 package com.example.reclameaqui.screens.main.profilescreen
 
+import com.example.reclameaqui.data.User
+
 data class ProfileUiState(
-    val userName: String = "Edvaldo Correa",
-    val whatLikeMore: String = "Assistir os dez mandamentos",
-    val whatDislikeMore: String = "Mentiras",
+    val userProfile: User = User(),
     val openSingOutDialog: Boolean = false
 )

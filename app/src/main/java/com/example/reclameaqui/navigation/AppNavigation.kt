@@ -132,7 +132,7 @@ fun MainNavigation(
 
             // Tela perfil.
             composable(ScreenType.PROFILE.name) {
-                ProfileScreen(authViewModel, modifier.padding(paddingValues))
+                ProfileScreen(authViewModel, userData, modifier.padding(paddingValues))
             }
 
         }

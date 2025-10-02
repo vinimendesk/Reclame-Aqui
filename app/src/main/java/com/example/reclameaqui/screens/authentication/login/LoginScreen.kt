@@ -78,23 +78,13 @@ fun LoginScreen(
     val emailColor = errorContainerColor(emailError, null)
     val emailText = errorTextColor(emailError, null)
     val email = loginUiState.email
-    val passwordVisibility = loginUiState.passwordVisible
 
     val passwordError = loginUiState.passwordError
     val passwordShake = shakeAnimation(passwordError, null)
     val passwordColor = errorContainerColor(passwordError, null)
     val passwordText = errorTextColor(passwordError, null)
     val password = loginUiState.password
-
-    /*LaunchedEffect(authState.value) {
-        when(authState.value) {
-            is AuthState.Authenticated -> MainNavigation(authViewModel, modifier)
-            is AuthState.Error -> Toast.makeText(context,
-                (authState.value as AuthState.Error).message,
-                Toast.LENGTH_SHORT).show()
-            else -> Unit
-        }
-    }*/
+    val passwordVisibility = loginUiState.passwordVisible
 
     Box(modifier = modifier
         .fillMaxSize()

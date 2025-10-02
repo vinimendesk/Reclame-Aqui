@@ -47,6 +47,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.reclameaqui.R
 import com.example.reclameaqui.auth.AuthState
 import com.example.reclameaqui.auth.AuthViewModel
+import com.example.reclameaqui.screens.main.profilescreen.components.EditInformationDialog
 import com.example.reclameaqui.screens.main.profilescreen.components.SingOutDialog
 import com.example.reclameaqui.screens.main.profilescreen.components.UserLikeInformation
 import com.example.reclameaqui.screens.main.profilescreen.components.UserNameInformation
@@ -66,6 +67,7 @@ fun ProfileScreen(
 
     val profileViewModel: ProfileViewModel = viewModel()
     val profileUiState = profileViewModel.profileUiState.collectAsState()
+    val currentUser = profileUiState.value.userProfile
 
     val context = LocalContext.current
 
@@ -98,7 +100,7 @@ fun ProfileScreen(
                     color = AzulForteText,
                     textAlign = TextAlign.Center)
                 // Edvaldo Correa
-                Text(text = profileUiState.value.userProfile.name,
+                Text(text = currentUser.name,
                     fontSize = 40.sp,
                     fontWeight = FontWeight.Black,
                     fontFamily = poppinsFontFamily(),
@@ -156,17 +158,29 @@ fun ProfileScreen(
 
 
             UserNameInformation(
-                content = profileUiState.value.userProfile.name,
+                editInformation = {
+                    profileViewModel.chooseInformation(1)
+                    profileViewModel.openEditInformationDialog()
+                },
+                content = currentUser.name,
                 type = "Seu nome"
             )
 
             UserLikeInformation(
-                content = profileUiState.value.userProfile.whatLikeMore,
+                editInformation = {
+                    profileViewModel.chooseInformation(2)
+                    profileViewModel.openEditInformationDialog()
+                },
+                content = currentUser.whatLikeMore,
                 type = "O que mais agrada?"
             )
 
             UserLikeInformation(
-                content = profileUiState.value.userProfile.whatDislikeMore,
+                editInformation = {
+                    profileViewModel.chooseInformation(3)
+                    profileViewModel.openEditInformationDialog()
+                },
+                content = currentUser.whatDislikeMore,
                 type = "O que mais odeia?"
             )
 
@@ -176,7 +190,7 @@ fun ProfileScreen(
             Text(
                 text = stringResource(
                     R.string.voce_postou_x_reclamacoes_profileScreen,
-                    profileUiState.value.userProfile.complaintsCount
+                    currentUser.complaintsCount
                 ),
                 fontWeight = FontWeight.Black,
                 fontFamily = poppinsFontFamily(),
@@ -218,12 +232,27 @@ fun ProfileScreen(
         }
     }
 
+
+    // ---------- CAIXAS DE DIÁLOGO ---------
     // Verifica se foi aberto o SingOutDialog
     if (profileUiState.value.openSingOutDialog == true) {
         SingOutDialog(
             authViewModel,
             { profileViewModel.closeSingOutDialog() },
             Modifier
+        )
+    }
+
+    if (profileUiState.value.openEditInformationDialog == true) {
+        EditInformationDialog(
+            onDismissRequest = {
+                profileViewModel.closeEditInformationDialog()
+                profileViewModel.chooseInformation(0)
+            },
+            textEditInformation = profileUiState.value.textEditInformationDialog,
+            onTextEditChange = { text -> profileViewModel.onTextEditInformation(text) },
+            numberInformation = profileUiState.value.numberInformation,
+            modifier = modifier
         )
     }
 }

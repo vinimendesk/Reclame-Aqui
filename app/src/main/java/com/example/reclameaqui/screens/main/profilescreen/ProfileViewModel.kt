@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.reclameaqui.data.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -13,6 +14,7 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class ProfileViewModel: ViewModel() {
 
@@ -20,21 +22,6 @@ class ProfileViewModel: ViewModel() {
     private val _profileUiState = MutableStateFlow(ProfileUiState())
     // Coleta do StateFlow do _profileUiState
     val profileUiState = _profileUiState.asStateFlow()
-
-    // ---------- FUNÇÃO CAIXA DE DIÁLOGO DE SINGOUT ----------
-    // Abrir a caixa de diálogo de singOut.
-    fun openSingOutDialog() {
-        _profileUiState.update {
-            it.copy(openSingOutDialog = true)
-        }
-    }
-
-    // Fechar caixa de diálogo de singOut.
-    fun closeSingOutDialog(){
-        _profileUiState.update {
-            it.copy(openSingOutDialog = false)
-        }
-    }
 
     // ---------- FUNÇÃO ATUALIZAR USUÁRIO ATUAL ----------
     // Buscar dados do usuário atual.
@@ -93,9 +80,100 @@ class ProfileViewModel: ViewModel() {
 
     }
 
+    // Editar o nome do usuário.
+    fun editNameUser(
+        databaseReference: DatabaseReference,
+        context: Context,
+        user: User
+    ) {
+        val newUserDataMap = mapOf(
+            "name" to user.name
+        )
+
+        databaseReference.child(user.id).updateChildren(newUserDataMap)
+            .addOnSuccessListener {
+                Toast.makeText(
+                    context,
+                    "Nome de usuário alterado com sucesso",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(
+                    context,
+                    "Erro ao editar nome de usuário",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+    }
+
     fun onUserChange(user: User) {
         _profileUiState.update {
             it.copy(userProfile = user)
+        }
+    }
+
+    // ---------- FUNÇÃO CAIXA DE DIÁLOGO DE EDITINFORMATIONDIALOG ---------
+    // Abrir caixa de diálogo edit information.
+    fun openEditInformationDialog() {
+        _profileUiState.update {
+            it.copy(openEditInformationDialog = true)
+        }
+    }
+
+    // Fechar caixade diálogo edit information.
+    fun closeEditInformationDialog() {
+        _profileUiState.update {
+            it.copy(openEditInformationDialog = false)
+        }
+    }
+
+    // Mudança de texto no TextField.
+    fun onTextEditInformation(text: String) {
+        _profileUiState.update {
+            it.copy(textEditInformationDialog = text)
+        }
+    }
+
+    // Escolher o tipo de dado a ser alterado.
+    fun chooseInformation(option: Int) {
+        _profileUiState.update {
+            it.copy(numberInformation = option)
+        }
+    }
+
+    fun showValidationErros(context: Context) {
+        _profileUiState.update {
+            it.copy(showErros = true)
+        }
+
+        if (profileUiState.value.editInformationErrorDialog) {
+            Toast.makeText(
+                context,
+                "Não é possível editar com valores vazios",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        viewModelScope.launch {
+            _profileUiState.update {
+                it.copy(showErros = false)
+            }
+        }
+    }
+
+    // ---------- FUNÇÃO CAIXA DE DIÁLOGO DE SINGOUT ----------
+    // Abrir a caixa de diálogo de singOut.
+    fun openSingOutDialog() {
+        _profileUiState.update {
+            it.copy(openSingOutDialog = true)
+        }
+    }
+
+    // Fechar caixa de diálogo de singOut.
+    fun closeSingOutDialog(){
+        _profileUiState.update {
+            it.copy(openSingOutDialog = false)
         }
     }
 

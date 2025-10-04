@@ -11,6 +11,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -157,6 +158,7 @@ class ProfileViewModel: ViewModel() {
 
         viewModelScope.launch {
             _profileUiState.update {
+                delay(1000)
                 it.copy(showErros = false)
             }
         }

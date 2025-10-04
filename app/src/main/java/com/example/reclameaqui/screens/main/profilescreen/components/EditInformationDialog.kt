@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.reclameaqui.R
 import com.example.reclameaqui.animations.errorContainerColor
 import com.example.reclameaqui.animations.errorTextColor
@@ -40,6 +41,7 @@ import com.example.reclameaqui.animations.shakeAnimation
 import com.example.reclameaqui.ui.theme.LaranjaButton
 import com.example.reclameaqui.ui.theme.LaranjaText
 import com.example.reclameaqui.ui.theme.poppinsFontFamily
+import kotlinx.coroutines.delay
 
 @Composable
 fun EditInformationDialog(
@@ -49,6 +51,7 @@ fun EditInformationDialog(
     numberInformation: Int,
     editInformationErrorDialog: Boolean,
     isValid: Boolean,
+    showValidationErros: () -> Unit,
     context: Context,
     modifier: Modifier
 ) {
@@ -83,7 +86,9 @@ fun EditInformationDialog(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 IconButton(
-                    onClick = { onDismissRequest() }
+                    onClick = {
+                        onDismissRequest()
+                    }
                 ) {
                     Icon(
                         imageVector = Icons.Default.Close,
@@ -133,7 +138,7 @@ fun EditInformationDialog(
                     errorContainerColor = editTextColor
                 ),
                 modifier = Modifier
-                    .graphicsLayer( translationX = editTextShake)
+                    .graphicsLayer(translationX = editTextShake)
                     .fillMaxWidth()
                     .padding(start = 24.dp, end = 24.dp, bottom = 48.dp, top = 24.dp)
             )
@@ -148,14 +153,17 @@ fun EditInformationDialog(
                 Button(
                     onClick = {
 
-
+                        showValidationErros()
 
                         if (isValid) {
                             Toast.makeText(
                                 context,
-
-                            )
+                                "Alteração realizada.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            onDismissRequest()
                         }
+
                     },
                     content = {
                         Text(text = stringResource(R.string.confirmar_alteracao_editInformationDialog),

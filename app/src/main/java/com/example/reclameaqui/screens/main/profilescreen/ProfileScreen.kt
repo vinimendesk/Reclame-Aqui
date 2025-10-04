@@ -160,6 +160,7 @@ fun ProfileScreen(
             UserNameInformation(
                 editInformation = {
                     profileViewModel.chooseInformation(1)
+                    profileViewModel.onTextEditInformation("")
                     profileViewModel.openEditInformationDialog()
                 },
                 content = currentUser.name,
@@ -169,6 +170,7 @@ fun ProfileScreen(
             UserLikeInformation(
                 editInformation = {
                     profileViewModel.chooseInformation(2)
+                    profileViewModel.onTextEditInformation("")
                     profileViewModel.openEditInformationDialog()
                 },
                 content = currentUser.whatLikeMore,
@@ -178,6 +180,7 @@ fun ProfileScreen(
             UserLikeInformation(
                 editInformation = {
                     profileViewModel.chooseInformation(3)
+                    profileViewModel.onTextEditInformation("")
                     profileViewModel.openEditInformationDialog()
                 },
                 content = currentUser.whatDislikeMore,
@@ -252,6 +255,10 @@ fun ProfileScreen(
             textEditInformation = profileUiState.value.textEditInformationDialog,
             onTextEditChange = { text -> profileViewModel.onTextEditInformation(text) },
             numberInformation = profileUiState.value.numberInformation,
+            editInformationErrorDialog = profileUiState.value.editInformationErrorDialog,
+            isValid = profileUiState.value.isValid,
+            showValidationErros = { profileViewModel.showValidationErros(context) },
+            context = context,
             modifier = modifier
         )
     }

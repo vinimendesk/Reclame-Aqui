@@ -51,4 +51,10 @@
     <string name="fazer_reclama_o_makeComplaint">Fazer Reclamação</string>
     <string name="n_o_mostrar_senha_passwordTextField">Não mostrar senha</string>
     <string name="mostrar_senha_passwordTextField">Mostrar senha</string>
+    <string name="deseja_editar_informacao_editInformationDialog">Deseja editar %1$s?</string>
+    <string name="seu_nome_editInformationDialog">seu nome</string>
+    <string name="o_que_mais_gosta_editInformationDialog">o que mais gosta</string>
+    <string name="o_que_mais_odeia_editInformationDialog">o que mais odeia</string>
+    <string name="bug_do_aplicativo_editInformationDialog">bug do aplicativo :(</string>
+    <string name="confirmar_alteracao_editInformationDialog">confirmar alteração</string>
 </resources>

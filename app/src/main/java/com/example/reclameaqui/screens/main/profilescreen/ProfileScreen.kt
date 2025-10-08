@@ -1,5 +1,6 @@
 package com.example.reclameaqui.screens.main.profilescreen
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,11 +30,13 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -44,6 +47,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.reclameaqui.R
 import com.example.reclameaqui.auth.AuthState
 import com.example.reclameaqui.auth.AuthViewModel
+import com.example.reclameaqui.screens.main.profilescreen.components.EditInformationDialog
 import com.example.reclameaqui.screens.main.profilescreen.components.SingOutDialog
 import com.example.reclameaqui.screens.main.profilescreen.components.UserLikeInformation
 import com.example.reclameaqui.screens.main.profilescreen.components.UserNameInformation
@@ -52,16 +56,24 @@ import com.example.reclameaqui.ui.theme.AzulFracoBackground
 import com.example.reclameaqui.ui.theme.RoxoButton
 import com.example.reclameaqui.ui.theme.RoxoText
 import com.example.reclameaqui.ui.theme.poppinsFontFamily
+import com.google.firebase.database.DatabaseReference
 
 @Composable
 fun ProfileScreen(
     authViewModel: AuthViewModel,
+    databaseReference: DatabaseReference,
     modifier: Modifier
 ) {
 
-    val authState = authViewModel.authState.collectAsState()
     val profileViewModel: ProfileViewModel = viewModel()
     val profileUiState = profileViewModel.profileUiState.collectAsState()
+    val currentUser = profileUiState.value.userProfile
+
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        profileViewModel.loadCurrentUser(databaseReference,context)
+    }
 
     Box(
         modifier = modifier
@@ -88,7 +100,7 @@ fun ProfileScreen(
                     color = AzulForteText,
                     textAlign = TextAlign.Center)
                 // Edvaldo Correa
-                Text(text = "Edvaldo Correa",
+                Text(text = currentUser.name,
                     fontSize = 40.sp,
                     fontWeight = FontWeight.Black,
                     fontFamily = poppinsFontFamily(),
@@ -146,17 +158,32 @@ fun ProfileScreen(
 
 
             UserNameInformation(
-                content = "Edvaldo Correa",
+                editInformation = {
+                    profileViewModel.chooseInformation(1)
+                    profileViewModel.onTextEditInformation("")
+                    profileViewModel.openEditInformationDialog()
+                },
+                content = currentUser.name,
                 type = "Seu nome"
             )
 
             UserLikeInformation(
-                content = "Assistir novela dos dez mandamentos",
+                editInformation = {
+                    profileViewModel.chooseInformation(2)
+                    profileViewModel.onTextEditInformation("")
+                    profileViewModel.openEditInformationDialog()
+                },
+                content = currentUser.whatLikeMore,
                 type = "O que mais agrada?"
             )
 
             UserLikeInformation(
-                content = "Mentiras",
+                editInformation = {
+                    profileViewModel.chooseInformation(3)
+                    profileViewModel.onTextEditInformation("")
+                    profileViewModel.openEditInformationDialog()
+                },
+                content = currentUser.whatDislikeMore,
                 type = "O que mais odeia?"
             )
 
@@ -164,7 +191,10 @@ fun ProfileScreen(
 
             // Você postou 498 reclamações.
             Text(
-                text = stringResource(R.string.voce_postou_x_reclamacoes_profileScreen, 498),
+                text = stringResource(
+                    R.string.voce_postou_x_reclamacoes_profileScreen,
+                    currentUser.complaintsCount
+                ),
                 fontWeight = FontWeight.Black,
                 fontFamily = poppinsFontFamily(),
                 fontSize = 16.sp,
@@ -205,6 +235,8 @@ fun ProfileScreen(
         }
     }
 
+
+    // ---------- CAIXAS DE DIÁLOGO ---------
     // Verifica se foi aberto o SingOutDialog
     if (profileUiState.value.openSingOutDialog == true) {
         SingOutDialog(
@@ -213,12 +245,27 @@ fun ProfileScreen(
             Modifier
         )
     }
-}
 
-
-@Preview
-@Composable
-fun ProfileScreenPreview() {
-    val authViewModel: AuthViewModel = viewModel()
-    ProfileScreen(authViewModel, Modifier)
+    if (profileUiState.value.openEditInformationDialog == true) {
+        EditInformationDialog(
+            onDismissRequest = {
+                profileViewModel.closeEditInformationDialog()
+                profileViewModel.chooseInformation(0)
+            },
+            textEditInformation = profileUiState.value.textEditInformationDialog,
+            onTextEditChange = { text -> profileViewModel.onTextEditInformation(text) },
+            numberInformation = profileUiState.value.numberInformation,
+            editInformationErrorDialog = profileUiState.value.editInformationErrorDialog,
+            isValid = profileUiState.value.isValid,
+            showValidationErrors = { profileViewModel.showValidationErros(context) },
+            editUserInformation = { profileViewModel.editUserInformation(
+                chooseOption = profileUiState.value.numberInformation,
+                databaseReference = databaseReference,
+                context = context,
+                userId = profileUiState.value.userProfile.id,
+                newValue = profileUiState.value.textEditInformationDialog
+            ) },
+            modifier = modifier
+        )
+    }
 }

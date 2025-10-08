@@ -33,6 +33,7 @@ import com.example.reclameaqui.R
 
 @Composable
 fun UserNameInformation(
+    editInformation: () -> Unit,
     content: String,
     type: String
 ) {
@@ -70,7 +71,7 @@ fun UserNameInformation(
                     )
                     Spacer(modifier = Modifier.width(24.dp))
                     IconButton(
-                        onClick = { /*Editar informação*/ }
+                        onClick = { editInformation() }
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Edit,
@@ -96,6 +97,7 @@ fun UserNameInformation(
 
 @Composable
 fun UserLikeInformation(
+    editInformation: () -> Unit,
     content: String,
     type: String
 ) {
@@ -133,7 +135,7 @@ fun UserLikeInformation(
                     )
                     Spacer(modifier = Modifier.width(24.dp))
                     IconButton(
-                        onClick = { /*Editar informação*/ }
+                        onClick = { editInformation() }
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Edit,

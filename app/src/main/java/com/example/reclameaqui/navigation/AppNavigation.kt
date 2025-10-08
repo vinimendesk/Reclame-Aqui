@@ -35,8 +35,11 @@ fun AppNavigation(
 
     val authState = authViewModel.authState.collectAsState()
 
+    // Referência ao nó Users
+    val userData = databaseReference.child("Users") // Busca o nó Users
+
     when (authState.value) {
-        is AuthState.Authenticated -> MainNavigation(authViewModel, databaseReference, modifier)
+        is AuthState.Authenticated -> MainNavigation(authViewModel, userData, modifier)
         is AuthState.Unauthenticated -> AuthNavigation(authViewModel, databaseReference, modifier)
         is AuthState.Error -> AuthNavigation(authViewModel, databaseReference, modifier)
         is AuthState.Loading -> AuthNavigation(authViewModel, databaseReference,modifier)
@@ -83,7 +86,7 @@ fun AuthNavigation(
 @Composable
 fun MainNavigation(
     authViewModel: AuthViewModel,
-    databaseReference: DatabaseReference,
+    userData: DatabaseReference,
     modifier: Modifier
 ) {
 
@@ -119,7 +122,7 @@ fun MainNavigation(
 
             // Tela integrantes da familia.
             composable(ScreenType.FAMILYMEMBERS.name) {
-                FamilyMemberScreen(authViewModel, navController, modifier.padding(paddingValues))
+                FamilyMemberScreen(authViewModel, navController, userData, modifier.padding(paddingValues))
             }
 
             // Tela postar reclamações.
@@ -129,7 +132,7 @@ fun MainNavigation(
 
             // Tela perfil.
             composable(ScreenType.PROFILE.name) {
-                ProfileScreen(authViewModel, modifier.padding(paddingValues))
+                ProfileScreen(authViewModel, userData, modifier.padding(paddingValues))
             }
 
         }

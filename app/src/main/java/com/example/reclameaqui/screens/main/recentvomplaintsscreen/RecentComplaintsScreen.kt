@@ -85,10 +85,6 @@ fun RecentComplaintsScreen(
             // Futuro LazyColumn.
             ComplaintCard("Vinicius Mendes", "Olá, eu sou o vini", LocalDateTime.now())
             ComplaintCard("Edvaldo Correa", "Reclamando das reclamação mantendo a reclamação", LocalDateTime.now())
-            /*ComplaintCard("Katia de Jesus", """
-                Testando o app com textos exorbitantes e vendo como ficaria no resultado final.
-                Isso não deixa de ser uma reclamação.
-            """.trimIndent(), LocalDateTime.now())*/
 
             Box (
                 contentAlignment = Alignment.BottomCenter,
@@ -111,6 +107,6 @@ fun RecentComplaintsScreen(
 @Composable
 fun RecentComplaintsScreenPreview() {
     val authViewModel: AuthViewModel = viewModel()
-    val navControler = rememberNavController()
-    RecentComplaintsScreen(authViewModel ,navControler, modifier = Modifier)
+    val navController = rememberNavController()
+    RecentComplaintsScreen(authViewModel ,navController, modifier = Modifier)
 }

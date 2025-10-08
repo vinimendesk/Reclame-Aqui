@@ -1,10 +1,10 @@
 package com.example.reclameaqui.screens.main.postcomplaintscreen
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,7 +28,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -35,15 +35,24 @@ import com.example.reclameaqui.R
 import com.example.reclameaqui.animations.errorContainerColor
 import com.example.reclameaqui.animations.errorTextColor
 import com.example.reclameaqui.animations.shakeAnimation
+import com.example.reclameaqui.data.ComplaintPost
+import com.example.reclameaqui.screens.main.profilescreen.ProfileUiState
 import com.example.reclameaqui.ui.theme.AzulForteText
 import com.example.reclameaqui.ui.theme.LaranjaButton
 import com.example.reclameaqui.ui.theme.LaranjaText
 import com.example.reclameaqui.ui.theme.RosaBackground
-import com.example.reclameaqui.ui.theme.RoxoButton
 import com.example.reclameaqui.ui.theme.poppinsFontFamily
+import com.google.firebase.database.DatabaseReference
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
-fun PostComplaintsScreen(modifier: Modifier) {
+fun PostComplaintsScreen(
+    postDatabaseReference: DatabaseReference,
+    profileUiState: State<ProfileUiState>,
+    context: Context,
+    modifier: Modifier
+) {
 
     val postComplaintViewModel: PostComplaintsViewModel = viewModel()
     val postComplaintsUiState by postComplaintViewModel.uiState.collectAsState()
@@ -144,7 +153,27 @@ fun PostComplaintsScreen(modifier: Modifier) {
 
             // Visualizar minhas reclamações
             Button(
-                onClick = { /*Postar reclamação*/ },
+                onClick = {
+
+                    val complaintPostId = postDatabaseReference.push().key
+                    val dateTimeNow = LocalDateTime.now().toString()
+                    val dateTimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+
+                    if(complaintPostId != null) {
+                        postComplaintViewModel.addComplaint(
+                            complaintPost = ComplaintPost(
+                                id = complaintPostId,
+                                author = profileUiState.value.userProfile.name,
+                                text = postComplaintsUiState.complaint,
+                                postDate = dateTimeNow.format(dateTimeFormat),
+                                isEdited = false
+                            ),
+                            context = context,
+                            databaseReference = postDatabaseReference
+                        )
+                    }
+                    postComplaintViewModel.onComplaintChange("")
+                },
                 content = {
                     Text(
                         text = stringResource(R.string.fazer_reclama_o_makeComplaint),
@@ -177,10 +206,11 @@ fun PostComplaintsScreen(modifier: Modifier) {
     }
 }
 
+/*
 @Preview
 @Composable
 fun PostComplaintsScreenPreview() {
 
     PostComplaintsScreen(Modifier)
 
-}
+}*/

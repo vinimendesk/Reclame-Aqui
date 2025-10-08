@@ -159,7 +159,9 @@ fun PostComplaintsScreen(
                     val dateTimeNow = LocalDateTime.now().toString()
                     val dateTimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
 
-                    if(complaintPostId != null) {
+                    postComplaintViewModel.showValidationErros(context)
+
+                    if (complaintPostId != null && postComplaintsUiState.isValid) {
                         postComplaintViewModel.addComplaint(
                             complaintPost = ComplaintPost(
                                 id = complaintPostId,

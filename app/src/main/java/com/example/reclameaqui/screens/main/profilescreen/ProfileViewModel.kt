@@ -82,30 +82,51 @@ class ProfileViewModel: ViewModel() {
     }
 
     // Editar o nome do usuário.
-    fun editNameUser(
+    fun editUserInformation(
         databaseReference: DatabaseReference,
         context: Context,
-        user: User
+        chooseOption: Int,
+        userId: String,
+        newValue: String
     ) {
-        val newUserDataMap = mapOf(
-            "name" to user.name
-        )
 
-        databaseReference.child(user.id).updateChildren(newUserDataMap)
-            .addOnSuccessListener {
-                Toast.makeText(
-                    context,
-                    "Nome de usuário alterado com sucesso",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            .addOnFailureListener {
-                Toast.makeText(
-                    context,
-                    "Erro ao editar nome de usuário",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+        val validOptions: List<Int> = listOf(1,2,3)
+        val userInformation = when (chooseOption) {
+            1 -> "nome"
+            2 -> "o que mais gosta"
+            3 -> "o que mais odeia"
+            else -> "bug do sistema :)"
+        }
+        val newUserDataMap = when (chooseOption) {
+            1 -> mapOf("name" to newValue)
+            2 -> mapOf("whatLikeMore" to newValue)
+            3 -> mapOf("whatDislikeMore" to newValue)
+            else -> emptyMap()
+        }
+
+        if (chooseOption in validOptions) {
+            databaseReference.child(userId).updateChildren(newUserDataMap)
+                .addOnSuccessListener {
+                    Toast.makeText(
+                        context,
+                        "$userInformation atualizado com sucesso",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(
+                        context,
+                        "Erro ao editar $userInformation de usuário",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+        } else {
+            Toast.makeText(
+                context,
+                "Bug no sistema. Choose Options $chooseOption",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     fun onUserChange(user: User) {

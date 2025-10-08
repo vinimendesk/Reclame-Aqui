@@ -257,8 +257,14 @@ fun ProfileScreen(
             numberInformation = profileUiState.value.numberInformation,
             editInformationErrorDialog = profileUiState.value.editInformationErrorDialog,
             isValid = profileUiState.value.isValid,
-            showValidationErros = { profileViewModel.showValidationErros(context) },
-            context = context,
+            showValidationErrors = { profileViewModel.showValidationErros(context) },
+            editUserInformation = { profileViewModel.editUserInformation(
+                chooseOption = profileUiState.value.numberInformation,
+                databaseReference = databaseReference,
+                context = context,
+                userId = profileUiState.value.userProfile.id,
+                newValue = profileUiState.value.textEditInformationDialog
+            ) },
             modifier = modifier
         )
     }

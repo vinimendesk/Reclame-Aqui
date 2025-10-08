@@ -51,8 +51,8 @@ fun EditInformationDialog(
     numberInformation: Int,
     editInformationErrorDialog: Boolean,
     isValid: Boolean,
-    showValidationErros: () -> Unit,
-    context: Context,
+    showValidationErrors: () -> Unit,
+    editUserInformation: () -> Unit,
     modifier: Modifier
 ) {
 
@@ -153,14 +153,10 @@ fun EditInformationDialog(
                 Button(
                     onClick = {
 
-                        showValidationErros()
+                        showValidationErrors()
 
                         if (isValid) {
-                            Toast.makeText(
-                                context,
-                                "Alteração realizada.",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            editUserInformation()
                             onDismissRequest()
                         }
 

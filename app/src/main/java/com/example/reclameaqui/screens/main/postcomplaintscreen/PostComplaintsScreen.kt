@@ -43,6 +43,7 @@ import com.example.reclameaqui.ui.theme.LaranjaText
 import com.example.reclameaqui.ui.theme.RosaBackground
 import com.example.reclameaqui.ui.theme.poppinsFontFamily
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ServerValue
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -156,8 +157,6 @@ fun PostComplaintsScreen(
                 onClick = {
 
                     val complaintPostId = postDatabaseReference.push().key
-                    val dateTimeNow = LocalDateTime.now().toString()
-                    val dateTimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
 
                     postComplaintViewModel.showValidationErros(context)
 
@@ -167,7 +166,7 @@ fun PostComplaintsScreen(
                                 id = complaintPostId,
                                 author = profileUiState.value.userProfile.name,
                                 text = postComplaintsUiState.complaint,
-                                postDate = dateTimeNow.format(dateTimeFormat),
+                                postDate = ServerValue.TIMESTAMP, // Retorna o timestamp do servidor.
                                 isEdited = false
                             ),
                             context = context,

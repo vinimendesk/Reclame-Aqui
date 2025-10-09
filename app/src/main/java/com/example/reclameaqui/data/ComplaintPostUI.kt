@@ -2,11 +2,11 @@ package com.example.reclameaqui.data
 
 import java.time.LocalDateTime
 
-data class ComplaintPost(
+data class ComplaintPostUi(
     val id: String = "",
     val author: String = "",
     val text: String = "",
-    val postDate: Any? = null, // Recebe qualquer tipo de dados, já que para Post o firebase envia como Map<String, String> e para Read lemos como LONG.
+    val postDate: LocalDateTime = LocalDateTime.of(0, 0, 0, 0, 0),
     val isEdited: Boolean = false,
     /*val imageProfile*/
 )

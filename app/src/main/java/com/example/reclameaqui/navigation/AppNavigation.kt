@@ -27,6 +27,7 @@ import com.example.reclameaqui.screens.main.postcomplaintscreen.PostComplaintsSc
 import com.example.reclameaqui.screens.main.profilescreen.ProfileScreen
 import com.example.reclameaqui.screens.main.profilescreen.ProfileViewModel
 import com.example.reclameaqui.screens.main.recentvomplaintsscreen.RecentComplaintsScreen
+import com.example.reclameaqui.screens.main.recentvomplaintsscreen.RecentComplaintsViewModel
 import com.google.firebase.database.DatabaseReference
 
 
@@ -108,11 +109,19 @@ fun MainNavigation(
     val profileViewModel: ProfileViewModel = viewModel()
     val profileUiState = profileViewModel.profileUiState.collectAsState()
 
+    val recentComplaintsViewModel: RecentComplaintsViewModel = viewModel()
+    val recentComplaintsUiState = recentComplaintsViewModel.recentComplaintsUiState.collectAsState()
+
     val context = LocalContext.current
 
     // Buscar os dados do usuário atual.
     LaunchedEffect(Unit) {
         profileViewModel.loadCurrentUser(userData, context)
+    }
+
+    // Buscar dos posts das reclamações.
+    LaunchedEffect(Unit) {
+        recentComplaintsViewModel.loadComplaints(postData, context)
     }
 
     Scaffold(
@@ -133,12 +142,20 @@ fun MainNavigation(
 
             // Tela reclamações.
             composable(ScreenType.RECENTCOMPLAINTS.name) {
-                RecentComplaintsScreen(authViewModel, navController, modifier.padding(paddingValues))
+                RecentComplaintsScreen(
+                    recentComplaintsUiState = recentComplaintsUiState,
+                    modifier = modifier.padding(paddingValues)
+                )
             }
 
             // Tela integrantes da familia.
             composable(ScreenType.FAMILYMEMBERS.name) {
-                FamilyMemberScreen(authViewModel, navController, userData, modifier.padding(paddingValues))
+                FamilyMemberScreen(
+                    authViewModel,
+                    navController,
+                    userData,
+                    modifier.padding(paddingValues)
+                )
             }
 
             // Tela postar reclamações.

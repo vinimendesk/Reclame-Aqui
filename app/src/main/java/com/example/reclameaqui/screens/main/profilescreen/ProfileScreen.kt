@@ -7,45 +7,31 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PersonPin
-import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.reclameaqui.R
-import com.example.reclameaqui.auth.AuthState
 import com.example.reclameaqui.auth.AuthViewModel
 import com.example.reclameaqui.screens.main.profilescreen.components.EditInformationDialog
 import com.example.reclameaqui.screens.main.profilescreen.components.SingOutDialog
@@ -60,20 +46,15 @@ import com.google.firebase.database.DatabaseReference
 
 @Composable
 fun ProfileScreen(
+    profileViewModel: ProfileViewModel,
+    profileUiState: State<ProfileUiState>,
     authViewModel: AuthViewModel,
     databaseReference: DatabaseReference,
+    context: Context,
     modifier: Modifier
 ) {
 
-    val profileViewModel: ProfileViewModel = viewModel()
-    val profileUiState = profileViewModel.profileUiState.collectAsState()
     val currentUser = profileUiState.value.userProfile
-
-    val context = LocalContext.current
-
-    LaunchedEffect(Unit) {
-        profileViewModel.loadCurrentUser(databaseReference,context)
-    }
 
     Box(
         modifier = modifier

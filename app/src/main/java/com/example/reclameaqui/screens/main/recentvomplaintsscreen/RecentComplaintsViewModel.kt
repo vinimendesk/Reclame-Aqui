@@ -33,8 +33,8 @@ class RecentComplaintsViewModel: ViewModel() {
             object: ValueEventListener {
                 // Sobrescreve a função chamada quando há alteração nos dados.
                 override fun onDataChange(snapshot: DataSnapshot) { // snapshot contém todos os dados do nó em específico.
+                    onComplaintsEmpty()
                     snapshot.children.forEach {
-                        onComplaintsEmpty()
                         // Converte o valor atual em uma classe de dados do tipo ComplaintPost.
                         val complaint = it.getValue(ComplaintPost::class.java)
                         // Busca o TIMESTAMP do nó postDate e converte para o time Long.

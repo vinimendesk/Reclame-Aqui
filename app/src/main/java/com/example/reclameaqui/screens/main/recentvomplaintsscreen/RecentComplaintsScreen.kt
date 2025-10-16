@@ -73,16 +73,23 @@ fun RecentComplaintsScreen(
                 .padding(bottom = 12.dp)
                 )
 
-            LazyColumn {
+            LazyColumn(
+                modifier = Modifier
+                    .weight(1f) // ocupa o espaço restante da tela
+                    .fillMaxWidth()
+            ) {
                 items(recentComplaintsUiState.value.complaintsList.size) { post ->
                     val complaintPost = recentComplaintsUiState.value.complaintsList[post]
-                    ComplaintCard(complaintPost)
+                    ComplaintCard(
+                        complaintPost,
+                        false,
+                        {}
+                    )
                 }
             }
 
             Box (
                 contentAlignment = Alignment.BottomCenter,
-                modifier = Modifier.fillMaxSize()
             ) {
                 Spacer(
                     modifier = Modifier

@@ -31,8 +31,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.reclameaqui.R
 import com.example.reclameaqui.auth.AuthViewModel
+import com.example.reclameaqui.navigation.ScreenType
 import com.example.reclameaqui.screens.main.profilescreen.components.EditInformationDialog
 import com.example.reclameaqui.screens.main.profilescreen.components.SingOutDialog
 import com.example.reclameaqui.screens.main.profilescreen.components.UserLikeInformation
@@ -50,6 +52,7 @@ fun ProfileScreen(
     profileUiState: State<ProfileUiState>,
     authViewModel: AuthViewModel,
     databaseReference: DatabaseReference,
+    navController: NavController,
     context: Context,
     modifier: Modifier
 ) {
@@ -185,7 +188,7 @@ fun ProfileScreen(
 
             // Visualizar minhas reclamações
             Button(
-                onClick = { /*Visualizar reclamações*/ },
+                onClick = { navController.navigate(ScreenType.MYCOMPLAINTS.name) },
                 content = {
                     Text(
                         text = stringResource(R.string.visualizar_minhas_reclama_es_profileScreen),

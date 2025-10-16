@@ -24,6 +24,7 @@ import com.example.reclameaqui.screens.main.bottomnavigationbar.BottomNavigation
 import com.example.reclameaqui.screens.main.bottomnavigationbar.NavigationItemContentList
 import com.example.reclameaqui.screens.main.familymembersscreen.FamilyMemberScreen
 import com.example.reclameaqui.screens.main.postcomplaintscreen.PostComplaintsScreen
+import com.example.reclameaqui.screens.main.mycomplaintscreen.MyComplaintsScreen
 import com.example.reclameaqui.screens.main.profilescreen.ProfileScreen
 import com.example.reclameaqui.screens.main.profilescreen.ProfileViewModel
 import com.example.reclameaqui.screens.main.recentvomplaintsscreen.RecentComplaintsScreen
@@ -175,7 +176,19 @@ fun MainNavigation(
                     profileUiState = profileUiState,
                     profileViewModel = profileViewModel,
                     databaseReference = userData,
+                    navController = navController,
                     context = context,
+                    modifier = modifier.padding(paddingValues)
+                )
+            }
+
+            // Minhas reclamações
+            composable(ScreenType.MYCOMPLAINTS.name) {
+                MyComplaintsScreen(
+                    recentComplaintsUiState = recentComplaintsUiState,
+                    profileUiState = profileUiState,
+                    postData,
+                    context,
                     modifier = modifier.padding(paddingValues)
                 )
             }
@@ -194,5 +207,6 @@ enum class ScreenType(val screen: String) {
     RECENTCOMPLAINTS("Reclamacoes recentes"),
     FAMILYMEMBERS("Integrantes da Familia"),
     MAKEACOMPLAINT("Faça uma Reclamação"),
-    PROFILE("Perfil")
+    PROFILE("Perfil"),
+    MYCOMPLAINTS("Minhas reclamações.")
 }

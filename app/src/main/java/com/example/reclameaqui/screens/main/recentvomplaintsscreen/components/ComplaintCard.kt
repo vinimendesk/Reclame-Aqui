@@ -16,14 +16,17 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
@@ -41,7 +44,9 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun ComplaintCard(
-    post: ComplaintPostUi
+    post: ComplaintPostUi,
+    isMyComplaint: Boolean,
+    deletePost: () -> Unit
 ) {
 
     val context = LocalContext.current
@@ -85,6 +90,23 @@ fun ComplaintCard(
                     fontFamily = bodyFontFamily,
                     textAlign = TextAlign.Start
                 )
+
+                if (isMyComplaint) {
+                    Box(
+                        contentAlignment = Alignment.BottomEnd,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        IconButton(
+                            onClick = { deletePost() },
+                            modifier = Modifier.size(30.dp)
+                            ) {
+                            Icon(
+                                imageVector = Icons.Filled.Delete,
+                                contentDescription = "Excluir post"
+                            )
+                        }
+                    }
+                }
 
             }
                 Text(

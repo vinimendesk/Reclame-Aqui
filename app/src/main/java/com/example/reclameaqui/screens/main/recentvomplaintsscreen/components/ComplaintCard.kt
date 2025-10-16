@@ -16,14 +16,17 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
@@ -33,12 +36,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import com.example.reclameaqui.R
+import com.example.reclameaqui.data.ComplaintPost
+import com.example.reclameaqui.data.ComplaintPostUi
 import com.example.reclameaqui.ui.theme.bodyFontFamily
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun ComplaintCard(author: String, text: String, postDate: LocalDateTime) {
+fun ComplaintCard(
+    post: ComplaintPostUi,
+    isMyComplaint: Boolean,
+    deletePost: () -> Unit
+) {
 
     val context = LocalContext.current
 
@@ -76,15 +85,32 @@ fun ComplaintCard(author: String, text: String, postDate: LocalDateTime) {
 
                 // Nome do autor.
                 Text(
-                    text = author,
+                    text = post.author,
                     fontWeight = FontWeight.Bold,
                     fontFamily = bodyFontFamily,
                     textAlign = TextAlign.Start
                 )
 
+                if (isMyComplaint) {
+                    Box(
+                        contentAlignment = Alignment.BottomEnd,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        IconButton(
+                            onClick = { deletePost() },
+                            modifier = Modifier.size(30.dp)
+                            ) {
+                            Icon(
+                                imageVector = Icons.Filled.Delete,
+                                contentDescription = "Excluir post"
+                            )
+                        }
+                    }
+                }
+
             }
                 Text(
-                    text = text,
+                    text = post.text,
                     fontFamily = bodyFontFamily,
                     textAlign = TextAlign.Justify,
                     overflow = TextOverflow.Ellipsis, // Adiciona "..." se o texto precisar ultrapssar o limite máximo.
@@ -105,8 +131,8 @@ fun ComplaintCard(author: String, text: String, postDate: LocalDateTime) {
                 val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
                 val textPostDate = context.getString(
                     R.string.postado_em_as_complaintcard,
-                    postDate.format(dateFormatter),
-                    postDate.format(timeFormatter)
+                    post.postDate.format(dateFormatter),
+                    post.postDate.format(timeFormatter)
                 )
 
             Box(
@@ -134,8 +160,9 @@ fun ComplaintCard(author: String, text: String, postDate: LocalDateTime) {
 
 }
 
+/*
 @Preview
 @Composable
 fun ComplaintCardPreview(){
     ComplaintCard("Vinicius Mendes", "Oi, eu sou o vini.", LocalDateTime.now())
-}
+}*/

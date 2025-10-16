@@ -4,8 +4,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
@@ -22,8 +24,11 @@ import com.example.reclameaqui.screens.main.bottomnavigationbar.BottomNavigation
 import com.example.reclameaqui.screens.main.bottomnavigationbar.NavigationItemContentList
 import com.example.reclameaqui.screens.main.familymembersscreen.FamilyMemberScreen
 import com.example.reclameaqui.screens.main.postcomplaintscreen.PostComplaintsScreen
+import com.example.reclameaqui.screens.main.mycomplaintscreen.MyComplaintsScreen
 import com.example.reclameaqui.screens.main.profilescreen.ProfileScreen
+import com.example.reclameaqui.screens.main.profilescreen.ProfileViewModel
 import com.example.reclameaqui.screens.main.recentvomplaintsscreen.RecentComplaintsScreen
+import com.example.reclameaqui.screens.main.recentvomplaintsscreen.RecentComplaintsViewModel
 import com.google.firebase.database.DatabaseReference
 
 
@@ -37,9 +42,10 @@ fun AppNavigation(
 
     // Referência ao nó Users
     val userData = databaseReference.child("Users") // Busca o nó Users
+    val postData = databaseReference.child("Posts") // Busca o nó Posts
 
     when (authState.value) {
-        is AuthState.Authenticated -> MainNavigation(authViewModel, userData, modifier)
+        is AuthState.Authenticated -> MainNavigation(authViewModel, userData, postData, modifier)
         is AuthState.Unauthenticated -> AuthNavigation(authViewModel, databaseReference, modifier)
         is AuthState.Error -> AuthNavigation(authViewModel, databaseReference, modifier)
         is AuthState.Loading -> AuthNavigation(authViewModel, databaseReference,modifier)
@@ -87,6 +93,7 @@ fun AuthNavigation(
 fun MainNavigation(
     authViewModel: AuthViewModel,
     userData: DatabaseReference,
+    postData: DatabaseReference,
     modifier: Modifier
 ) {
 
@@ -98,6 +105,25 @@ fun MainNavigation(
     val currentDestination = navBackStackEntry.value?.destination?.route
     // Procura no ScreenType, qual a route especifica atual, caso não encontre, retorne a RecentComplaints.
     val currentScreen = ScreenType.entries.find { it.name == currentDestination } ?: ScreenType.RECENTCOMPLAINTS
+
+    // Instâncias de ViewModel e UiState
+    val profileViewModel: ProfileViewModel = viewModel()
+    val profileUiState = profileViewModel.profileUiState.collectAsState()
+
+    val recentComplaintsViewModel: RecentComplaintsViewModel = viewModel()
+    val recentComplaintsUiState = recentComplaintsViewModel.recentComplaintsUiState.collectAsState()
+
+    val context = LocalContext.current
+
+    // Buscar os dados do usuário atual.
+    LaunchedEffect(Unit) {
+        profileViewModel.loadCurrentUser(userData, context)
+    }
+
+    // Buscar dos posts das reclamações.
+    LaunchedEffect(Unit) {
+        recentComplaintsViewModel.loadComplaints(postData, context)
+    }
 
     Scaffold(
         bottomBar = {
@@ -117,22 +143,54 @@ fun MainNavigation(
 
             // Tela reclamações.
             composable(ScreenType.RECENTCOMPLAINTS.name) {
-                RecentComplaintsScreen(authViewModel, navController, modifier.padding(paddingValues))
+                RecentComplaintsScreen(
+                    recentComplaintsUiState = recentComplaintsUiState,
+                    modifier = modifier.padding(paddingValues)
+                )
             }
 
             // Tela integrantes da familia.
             composable(ScreenType.FAMILYMEMBERS.name) {
-                FamilyMemberScreen(authViewModel, navController, userData, modifier.padding(paddingValues))
+                FamilyMemberScreen(
+                    authViewModel,
+                    navController,
+                    userData,
+                    modifier.padding(paddingValues)
+                )
             }
 
             // Tela postar reclamações.
             composable(ScreenType.MAKEACOMPLAINT.name) {
-                PostComplaintsScreen(modifier.padding(paddingValues))
+                PostComplaintsScreen(
+                    profileUiState = profileUiState,
+                    postDatabaseReference = postData,
+                    context = context,
+                    modifier = modifier.padding(paddingValues)
+                )
             }
 
             // Tela perfil.
             composable(ScreenType.PROFILE.name) {
-                ProfileScreen(authViewModel, userData, modifier.padding(paddingValues))
+                ProfileScreen(
+                    authViewModel = authViewModel,
+                    profileUiState = profileUiState,
+                    profileViewModel = profileViewModel,
+                    databaseReference = userData,
+                    navController = navController,
+                    context = context,
+                    modifier = modifier.padding(paddingValues)
+                )
+            }
+
+            // Minhas reclamações
+            composable(ScreenType.MYCOMPLAINTS.name) {
+                MyComplaintsScreen(
+                    recentComplaintsUiState = recentComplaintsUiState,
+                    profileUiState = profileUiState,
+                    postData,
+                    context,
+                    modifier = modifier.padding(paddingValues)
+                )
             }
 
         }
@@ -149,5 +207,6 @@ enum class ScreenType(val screen: String) {
     RECENTCOMPLAINTS("Reclamacoes recentes"),
     FAMILYMEMBERS("Integrantes da Familia"),
     MAKEACOMPLAINT("Faça uma Reclamação"),
-    PROFILE("Perfil")
+    PROFILE("Perfil"),
+    MYCOMPLAINTS("Minhas reclamações.")
 }
